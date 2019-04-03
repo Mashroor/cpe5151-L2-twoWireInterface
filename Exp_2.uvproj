@@ -424,14 +424,29 @@
               <FilePath>.\Assembly_Exp1_solution.s</FilePath>
             </File>
             <File>
-              <FileName>TWI_example.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\TWI_example.s</FilePath>
-            </File>
-            <File>
               <FileName>USART0_solution.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\USART0_solution.s</FilePath>
+            </File>
+            <File>
+              <FileName>TWI.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\TWI.s</FilePath>
+            </File>
+            <File>
+              <FileName>TWI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\TWI.h</FilePath>
+            </File>
+            <File>
+              <FileName>temp.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\temp.s</FilePath>
+            </File>
+            <File>
+              <FileName>temp.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\temp.h</FilePath>
             </File>
           </Files>
         </Group>

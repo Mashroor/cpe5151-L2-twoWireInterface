@@ -90,7 +90,7 @@ USART0_INIT
 			PUSH {R4-R5,R14}
  			LDR R4,=PMC_BASE
 			MOV R5,#PIOA_PID
-			ORR R5,R5,#(1<<USART0_PID)	
+			ORR R5,R5,#(1<<USART0_PID)
 			STR R5,[R4,#PMC_PCER]
 			LDR R4,=USART0_BASE
 			MOV R5,#RESET_UART			
@@ -132,7 +132,7 @@ TX_LOOP		LDR R5,[R4,#US_CSR]
 CANNOT_SEND	POP {R4-R5,R14}
 			BX R14
 
-;***************d*******************************************************************
+;**********************************************************************************
 ;*	RECEIVE ROUTINE (W/POLLING)		int USART0_Receive(void)
 ;*		Continuously polls the RXRDY bit until a character is received.  The
 ;*		received character is returned in R0.  The error bits for parity

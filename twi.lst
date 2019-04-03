@@ -5,27 +5,19 @@ ARM Macro Assembler    Page 1
 
 
     1 00000000         ;*******************************************************
-                       ******************************
-    2 00000000         ;*  USART_solution_2017.s
-    3 00000000         ;*  Routines for initializing USART0, transmitting a cha
-                       racter,
-    4 00000000         ;*  receiving a character by continuously polling the RX
-                       RDY bit
-    5 00000000         ;*  and receiving a character by checking the RXRDY bit 
-                       once and 
-    6 00000000         ;*   returning a character or EOF (-1).
-    7 00000000         ;*  
-    8 00000000         ;*  CpE5151 Experiment #2, Spring 2017
-    9 00000000         ;*******************************************************
-                       ******************************
-   10 00000000         ;*  Version 1.0            Roger Younger
-   11 00000000         ;*******************************************************
-                       ******************************
-   12 00000000         ;*  
-   13 00000000         ;* CONSTANT DECLARATIONS
-   14 00000000         
-   15 00000000         
-   16 00000000                 INCLUDE          AT91SAM7SE512.INC
+                       ***********************
+    2 00000000         ; TWI.s - Experiment 2 - Adam Worley, Mashroor Rashid
+    3 00000000         ;
+    4 00000000         ; This file contains code for the Two Wire Interface fun
+                       ctions:
+    5 00000000         ; TWI_MASTER_INIT
+    6 00000000         ; TWI_MASTER_WRITE
+    7 00000000         ; TWI_MASTER_READ
+    8 00000000         ;*******************************************************
+                       ***********************
+    9 00000000         
+   10 00000000         ;********** INCLUDES **********
+   11 00000000                 INCLUDE          AT91SAM7SE512.INC
     1 00000000 00000001 
                        REGS512 EQU              1
     2 00000000         
@@ -63,12 +55,6 @@ ARM Macro Assembler    Page 1
    15 00000000         
    16 00000000         ; Internal Memory Base Addresses
    17 00000000 00100000 
-
-
-
-ARM Macro Assembler    Page 2 
-
-
                        FLASH_BASE
                                EQU              0x00100000
    18 00000000 00200000 
@@ -77,6 +63,12 @@ ARM Macro Assembler    Page 2
    19 00000000         
    20 00000000         
    21 00000000         
+
+
+
+ARM Macro Assembler    Page 2 
+
+
    22 00000000         
    23 00000000         
    24 00000000         
@@ -128,12 +120,6 @@ ARM Macro Assembler    Page 2
                                EQU              0
    55 00000000 00320100 
                        EFC1_FMR_Val
-
-
-
-ARM Macro Assembler    Page 3 
-
-
                                EQU              0x00320100
    56 00000000         
    57 00000000         
@@ -142,6 +128,12 @@ ARM Macro Assembler    Page 3
    60 00000000         
    61 00000000         
    62 00000000         ; PID Number Definitions (shifted '1')
+
+
+
+ARM Macro Assembler    Page 3 
+
+
    63 00000000 00000004 
                        PIOA_PID_BIT
                                EQU              1<<2
@@ -193,12 +185,6 @@ ARM Macro Assembler    Page 3
                        PIOB_PID
                                EQU              3
    81 00000000 00000004 
-
-
-
-ARM Macro Assembler    Page 4 
-
-
                        PIOC_PID
                                EQU              4
    82 00000000 00000005 
@@ -207,6 +193,12 @@ ARM Macro Assembler    Page 4
                        USART0_PID
                                EQU              6
    84 00000000 00000007 
+
+
+
+ARM Macro Assembler    Page 4 
+
+
                        USART1_PID
                                EQU              7
    85 00000000 00000008 
@@ -258,12 +250,6 @@ ARM Macro Assembler    Page 4
                                EQU              (0xFF<<8)   ; Main OScillator S
                                                             tart-up Time
   105 00000000 000000FF 
-
-
-
-ARM Macro Assembler    Page 5 
-
-
                        PMC_DIV EQU              (0xFF<<0)   ; PLL Divider
   106 00000000 00003F00 
                        PMC_PLLCOUNT
@@ -272,6 +258,12 @@ ARM Macro Assembler    Page 5
                        PMC_OUT EQU              (0x03<<14)  ; PLL Clock Frequen
                                                             cy Range
   108 00000000 07FF0000 
+
+
+
+ARM Macro Assembler    Page 5 
+
+
                        PMC_MUL EQU              (0x7FF<<16) ; PLL Multiplier
   109 00000000 30000000 
                        PMC_USBDIV
@@ -323,12 +315,6 @@ ARM Macro Assembler    Page 5
                        PMC_PCK2
                                EQU              0x0048
   124 00000000 00000060 
-
-
-
-ARM Macro Assembler    Page 6 
-
-
                        PMC_IER EQU              0x0060
   125 00000000 00000064 
                        PMC_IDR EQU              0x0064
@@ -337,6 +323,12 @@ ARM Macro Assembler    Page 6
   127 00000000         
   128 00000000         ;// <e> Power Mangement Controller (PMC)
   129 00000000         ;//   <h> Main Oscillator
+
+
+
+ARM Macro Assembler    Page 6 
+
+
   130 00000000         ;//     <o1.0>      MOSCEN: Main Oscillator Enable
   131 00000000         ;//     <o1.1>      OSCBYPASS: Oscillator Bypass
   132 00000000         ;//     <o1.8..15>  OSCCOUNT: Main Oscillator Startup Ti
@@ -388,12 +380,6 @@ ARM Macro Assembler    Page 6
                                EQU              0xFFFC0000
   165 00000000 FFFC4000 
                        USART1_BASE
-
-
-
-ARM Macro Assembler    Page 7 
-
-
                                EQU              0xFFFC4000
   166 00000000 00000000 
                        US_CR   EQU              0x0000
@@ -402,6 +388,12 @@ ARM Macro Assembler    Page 7
   168 00000000 00000008 
                        US_IER  EQU              0x0008
   169 00000000 0000000C 
+
+
+
+ARM Macro Assembler    Page 7 
+
+
                        US_IDR  EQU              0x000C
   170 00000000 00000010 
                        US_IMR  EQU              0x0010
@@ -453,12 +445,6 @@ ARM Macro Assembler    Page 7
   193 00000000 00000100 
                        AIC_IVR EQU              0x0100
   194 00000000 00000104 
-
-
-
-ARM Macro Assembler    Page 8 
-
-
                        AIC_FVR EQU              0x0104
   195 00000000 00000108 
                        AIC_ISR EQU              0x0108
@@ -467,6 +453,12 @@ ARM Macro Assembler    Page 8
   197 00000000 00000110 
                        AIC_IMR EQU              0x0110
   198 00000000 00000114 
+
+
+
+ARM Macro Assembler    Page 8 
+
+
                        AIC_CISR
                                EQU              0x0114
   199 00000000 00000120 
@@ -518,12 +510,6 @@ ARM Macro Assembler    Page 8
   218 00000000 00000010 
                        PIO_OER EQU              0x0010
   219 00000000 00000014 
-
-
-
-ARM Macro Assembler    Page 9 
-
-
                        PIO_ODR EQU              0x0014
   220 00000000 00000018 
                        PIO_OSR EQU              0x0018
@@ -532,6 +518,12 @@ ARM Macro Assembler    Page 9
                                EQU              0x0020
   222 00000000 00000024 
                        PIO_IFDR
+
+
+
+ARM Macro Assembler    Page 9 
+
+
                                EQU              0x0024
   223 00000000 00000028 
                        PIO_IFSR
@@ -583,12 +575,6 @@ ARM Macro Assembler    Page 9
                                EQU              0x0078
   241 00000000 000000A0 
                        PIO_OWER
-
-
-
-ARM Macro Assembler    Page 10 
-
-
                                EQU              0x00A0
   242 00000000 000000A4 
                        PIO_OWDR
@@ -597,6 +583,12 @@ ARM Macro Assembler    Page 10
                        PIO_OWSR
                                EQU              0x00A8
   244 00000000         
+
+
+
+ARM Macro Assembler    Page 10 
+
+
   245 00000000         ; Analog to Digital Converter (ADC)
   246 00000000 FFFD8000 
                        ADC_BASE
@@ -648,12 +640,6 @@ ARM Macro Assembler    Page 10
                                EQU              0x0048
   264 00000000 0000004C 
                        ADC_CDR7
-
-
-
-ARM Macro Assembler    Page 11 
-
-
                                EQU              0x004C
   265 00000000         
   266 00000000         
@@ -662,6 +648,12 @@ ARM Macro Assembler    Page 11
                        PWM_BASE
                                EQU              0xFFFCC000
   269 00000000 00000000 
+
+
+
+ARM Macro Assembler    Page 11 
+
+
                        PWM_MR  EQU              0x0000
   270 00000000 00000004 
                        PWM_ENA EQU              0x0004
@@ -713,12 +705,6 @@ ARM Macro Assembler    Page 11
   288 00000000 00000244 
                        PWM_CDTY2
                                EQU              0x0244
-
-
-
-ARM Macro Assembler    Page 12 
-
-
   289 00000000 00000248 
                        PWM_CPRD2
                                EQU              0x0248
@@ -727,6 +713,12 @@ ARM Macro Assembler    Page 12
                                EQU              0x024C
   291 00000000 00000250 
                        PWM_CUPD2
+
+
+
+ARM Macro Assembler    Page 12 
+
+
                                EQU              0x0250
   292 00000000 00000260 
                        PWM_CMR3
@@ -778,12 +770,6 @@ ARM Macro Assembler    Page 12
                        TC_SR   EQU              0x20
   314 00000000 00000024 
                        TC_IER  EQU              0x24
-
-
-
-ARM Macro Assembler    Page 13 
-
-
   315 00000000 00000028 
                        TC_IDR  EQU              0x28
   316 00000000 0000002C 
@@ -792,6 +778,12 @@ ARM Macro Assembler    Page 13
   318 00000000         
   319 00000000         ; Real-Time Timer
   320 00000000         
+
+
+
+ARM Macro Assembler    Page 13 
+
+
   321 00000000 FFFFFD20 
                        RTT_BASE
                                EQU              0xFFFFFD20
@@ -843,12 +835,6 @@ ARM Macro Assembler    Page 13
   345 00000000 00000030 
                        SPI_CSR0
                                EQU              0x30
-
-
-
-ARM Macro Assembler    Page 14 
-
-
   346 00000000 00000034 
                        SPI_CSR1
                                EQU              0x34
@@ -857,6 +843,12 @@ ARM Macro Assembler    Page 14
                                EQU              0x38
   348 00000000 0000003C 
                        SPI_CSR3
+
+
+
+ARM Macro Assembler    Page 14 
+
+
                                EQU              0x3C
   349 00000000         
   350 00000000         ; Synchronous Serial Controller (SSC)
@@ -908,12 +900,6 @@ ARM Macro Assembler    Page 14
   370 00000000 FFFB8000 
                        TWI_BASE
                                EQU              0xFFFB8000
-
-
-
-ARM Macro Assembler    Page 15 
-
-
   371 00000000 00000000 
                        TWI_CR  EQU              0x00
   372 00000000 00000004 
@@ -922,6 +908,12 @@ ARM Macro Assembler    Page 15
                        TWI_SMR EQU              0x08
   374 00000000 0000000C 
                        TWI_IADR
+
+
+
+ARM Macro Assembler    Page 15 
+
+
                                EQU              0x0C
   375 00000000 00000010 
                        TWI_CWGR
@@ -973,12 +965,6 @@ ARM Macro Assembler    Page 15
                        PDC_TNPR
                                EQU              0x00000018
   396 00000000 0000001C 
-
-
-
-ARM Macro Assembler    Page 16 
-
-
                        PDC_TNCR
                                EQU              0x0000001C
   397 00000000 00000020 
@@ -987,6 +973,12 @@ ARM Macro Assembler    Page 16
   398 00000000 00000024 
                        PDC_PTSR
                                EQU              0x00000024
+
+
+
+ARM Macro Assembler    Page 16 
+
+
   399 00000000         
   400 00000000         ; Clock Generator Contoller
   401 00000000 FFFFFC20 
@@ -1038,12 +1030,6 @@ ARM Macro Assembler    Page 16
                                EQU              0xFFFB0000
   421 00000000 00000000 
                        UDP_FRM_NUM
-
-
-
-ARM Macro Assembler    Page 17 
-
-
                                EQU              0x00000000  ;(UDP_FRM_NUM) Fram
                                                             e Number Register
   422 00000000 00000004 
@@ -1052,6 +1038,12 @@ ARM Macro Assembler    Page 17
                                                             bal State Register
   423 00000000 00000008 
                        UDP_FADDR
+
+
+
+ARM Macro Assembler    Page 17 
+
+
                                EQU              0x00000008  ;(UDP_FADDR) Functi
                                                             on Address Register
                                                             
@@ -1103,12 +1095,6 @@ ARM Macro Assembler    Page 17
                        UDP_CSR5
                                EQU              0x00000044  ;(UDP_CSR) Endpoint
                                                              Control and Status
-
-
-
-ARM Macro Assembler    Page 18 
-
-
                                                              Register 5
   436 00000000 00000048 
                        UDP_CSR6
@@ -1117,6 +1103,12 @@ ARM Macro Assembler    Page 18
                                                              Register 6
   437 00000000 0000004C 
                        UDP_CSR7
+
+
+
+ARM Macro Assembler    Page 18 
+
+
                                EQU              0x0000004C  ;(UDP_CSR) Endpoint
                                                              Control and Status
                                                              Register 7
@@ -1168,12 +1160,6 @@ ARM Macro Assembler    Page 18
   447 00000000         
   448 00000000         ; External Bus interface
   449 00000000 FFFFFF80 
-
-
-
-ARM Macro Assembler    Page 19 
-
-
                        EBI_BASE
                                EQU              0xFFFFFF80  ;(EBI) Base Address
                                                             
@@ -1182,6 +1168,12 @@ ARM Macro Assembler    Page 19
                                                              Select Assignment 
                                                             Register
   451 00000000         
+
+
+
+ARM Macro Assembler    Page 19 
+
+
   452 00000000 FFFFFF90 
                        SMC_BASE
                                EQU              0xFFFFFF90  ;(SMC) Base Address
@@ -1233,12 +1225,6 @@ ARM Macro Assembler    Page 19
                                                             s 
   463 00000000 00000000 
                        SDRC_MR EQU              0x00000000  ;(SDRC_MR) SDRAM Co
-
-
-
-ARM Macro Assembler    Page 20 
-
-
                                                             ntroller Mode Regis
                                                             ter
   464 00000000 00000004 
@@ -1247,6 +1233,12 @@ ARM Macro Assembler    Page 20
                                                             mer Register
   465 00000000 00000008 
                        SDRC_CR EQU              0x00000008  ;(SDRC_CR) SDRAM Co
+
+
+
+ARM Macro Assembler    Page 20 
+
+
                                                             ntroller Configurat
                                                             ion Register
   466 00000000 0000000C 
@@ -1298,12 +1290,6 @@ ARM Macro Assembler    Page 20
   478 00000000 0000000C 
                        ECC_PR  EQU              0x0000000C  ;(ECC_PR)  ECC Pari
                                                             ty register
-
-
-
-ARM Macro Assembler    Page 21 
-
-
   479 00000000 00000010 
                        ECC_NPR EQU              0x00000010  ;(ECC_NPR)  ECC Par
                                                             ity N register
@@ -1311,407 +1297,549 @@ ARM Macro Assembler    Page 21
                         register
   481 00000000         
   482 00000000                 END
+   12 00000000         
+
+
+
+ARM Macro Assembler    Page 21 
+
+
+   13 00000000         ;********** CONSTANT DECLARATIONS **********
+   14 00000000         ; TWI_CR
+   15 00000000 00000001 
+                       START   EQU              (1<<0)
+   16 00000000 00000002 
+                       STOP    EQU              (1<<1)
    17 00000000         
-   18 00000000         ;***** UART DECLARATIONS  ***************************
-   19 00000000 00000000 
-                       US_MODE EQU              0
-   20 00000000 00000000 
-                       NORMAL_MODE
-                               EQU              0x00
-   21 00000000 00000001 
-                       RS485_MODE
-                               EQU              0x01
-   22 00000000 00000002 
-                       HW_HANDSHAKE
-                               EQU              0x02
-   23 00000000 00000003 
-                       MODEM_MODE
-                               EQU              0x03
+   18 00000000         ; TWI_MMR BITS
+   19 00000000 00001000 
+                       MREAD_BIT
+                               EQU              (1<<12)
+   20 00000000         
+   21 00000000         ; TWI_SR BITS
+   22 00000000 00000100 
+                       NACK_BIT
+                               EQU              (1<<8)
+   23 00000000 00000040 
+                       OVRE_BIT
+                               EQU              (1<<6)
    24 00000000 00000004 
-                       USCLK   EQU              4
-   25 00000000 00000000 
-                       US_MCK  EQU              0x00
+                       TxRDY_BIT
+                               EQU              (1<<2)
+   25 00000000 00000002 
+                       RxRDY_BIT
+                               EQU              (1<<1)
    26 00000000 00000001 
-                       US_MCK_8
-                               EQU              0x01
-   27 00000000 00000003 
-                       US_SCK  EQU              0x03
-   28 00000000 00000006 
-                       CHRL    EQU              6
-   29 00000000 00000000 
-                       CHRL_5  EQU              0x00
-   30 00000000 00000001 
-                       CHRL_6  EQU              0x01
-   31 00000000 00000002 
-                       CHRL_7  EQU              0x02
-   32 00000000 00000003 
-                       CHRL_8  EQU              0x03
-   33 00000000 00000009 
-                       PAR     EQU              9
-   34 00000000 00000000 
-                       PAR_EVEN
-                               EQU              0x00
-   35 00000000 00000001 
-                       PAR_ODD EQU              0x01
-   36 00000000 00000002 
-                       PAR_SPACE
-                               EQU              0x02
-   37 00000000 00000003 
-                       PAR_MARK
-                               EQU              0x03
-   38 00000000 00000004 
-                       PAR_NONE
-                               EQU              0x04
-   39 00000000 00000006 
+                       TxCOMP_BIT
+                               EQU              (1<<0)
+   27 00000000         
+   28 00000000         ; CLOCK CONSTANTS
+   29 00000000         ; OVER EQU 0
+   30 00000000         ; BAUDRATE EQU 9600
+   31 00000000 02DB4000 
+                       MCK     EQU              47923200    ; 47.9232MHz
+   32 00000000 000061A8 
+                       TWI_FREQ
+                               EQU              25000       ; 25kHz
+   33 00000000 00000080 
+                       TWI_RST EQU              1<<7
+   34 00000000 00000024 
+                       TWI_MSTR_MODE
+                               EQU              ((1<<5) :OR: (1<<2))
+   35 00000000 00000018 
+                       TWI_SLAV_MODE
+                               EQU              ((1<<4) :OR: (1<<3))
+   36 00000000         
+   37 00000000         ; CKDIV
+   38 00000000         ; > ln[((MCK / (TWI_FREQ * 2)) - 4) / 255] / ln2
+   39 00000000         ; > 1.904
+   40 00000000         ; = 2
+   41 00000000 00000002 
+                       CKDIV   EQU              2
+   42 00000000         
+   43 00000000         ; CxDIV
+   44 00000000         ; = ((MCK / (2 * TWI_FREQ)) - 4) / (2^CKDIV)
+   45 00000000         ; = 238.616 rounded to 239
+   46 00000000 000000EF 
+                       CxDIV   EQU              239         ; 0x00EF
+   47 00000000 000000EF 
 
 
 
 ARM Macro Assembler    Page 22 
 
 
-                       PAR_MULTI
-                               EQU              0x06
-   40 00000000 0000000C 
-                       NB_STOP EQU              12
-   41 00000000 00000000 
-                       STOP_1  EQU              0x00
-   42 00000000 00000001 
-                       STOP_1_5
-                               EQU              0x01
-   43 00000000 00000002 
-                       STOP_2  EQU              0x02
-   44 00000000 0000000E 
-                       CHMODE  EQU              14
-   45 00000000 00000011 
-                       MODE9   EQU              17
-   46 00000000 00000013 
-                       OVER    EQU              19
-   47 00000000         
-   48 00000000 00000060 
-                       RX_TX_PINS
-                               EQU              ((1<<5):OR:(1<<6)) ; PIOA5 - RX
-                                                            D0, PIOA6 - TXD0
-   49 00000000 00000100 
-                       RESET_STA
-                               EQU              0x0100      ; RESETS STATUS ONL
-                                                            Y
-   50 00000000 0000010C 
-                       RESET_UART
-                               EQU              (RESET_STA:OR:(1<<2):OR:(1<<3))
- 
-                                                            ; RESETS STATUS AND
-                                                             RX(bit2) AND TX(bi
-                                                            t3)
-   51 00000000         
-   52 00000000 000008C0 
-                       UART_MODE_REG
-                               EQU              (OVER_bit<<OVER):OR:(0<<CHMODE)
-:OR:(STOP_1<<NB_STOP):OR:(PAR_NONE<<PAR):OR:(CHRL_8<<CHRL):OR:(US_MCK<<USCLK):O
-R:(NORMAL_MODE<<US_MODE)
-   53 00000000         ;0x08C0     ; NORMAL MODE 8-N-1
-   54 00000000 00000050 
-                       RX_TX_EN
-                               EQU              ((1<<4):OR:(1<<6)) ; ENABLES RX
-                                                            (bit4) AND TX(bit6)
-                                                            
-   55 00000000         
-   56 00000000         ;***** SERIAL DECLARATIONS **************************
-   57 00000000 0000007F 
-                       MAX_ASCII
-                               EQU              0x007F      ; ASCII RANGE 0 TO 
-                                                            0x7F
-   58 00000000 00000002 
-                       TXRDY   EQU              1<<1        ; TXRDY, BIT 1
-   59 00000000 00000001 
-                       RXRDY   EQU              1<<0        ; RXRDY, BIT 0
-   60 00000000 000000E0 
-                       ERR_BITS
-                               EQU              ((1<<5):OR:(1<<6):OR:(1<<7)) ; 
-                                                            OVERRUN, FRAME & PA
+                       CLDIV   EQU              (CxDIV & 0xFF) ; 0xEF
+   48 00000000 000000EF 
+                       CHDIV   EQU              (CxDIV & 0xFF) ; 0xEF
+   49 00000000 0002EFEF 
+                       CWGR_VAL
+                               EQU              ((CKDIV<<16) :OR: (CHDIV<<8) :O
+R: CLDIV)
+   50 00000000         
+   51 00000000         ; BAUD RATE GEN RELOAD VALUE
+   52 00000000         ; = MCK / (8 * BAUDRATE * (2 - OVER))
+   53 00000000         ; OVER = 0
+   54 00000000         ; actual value = 312
+   55 00000000         ; no rounding necessary -> actual baud rate = 9600
+   56 00000000         ; BRGR_VAL EQU (MCK / (8 * BAUDRATE * (2 - OVER)))
+   57 00000000         
+   58 00000000         ; ERROR CODES
+   59 00000000 10000000 
+                       NACK_ERROR
+                               EQU              (0x10000000)
+   60 00000000 20000000 
+                       OVRE_ERROR
+                               EQU              (0x20000000)
+   61 00000000         
+   62 00000000         ; PINS
+   63 00000000 00000008 
+                       SDA     EQU              (1<<3)
+   64 00000000 00000010 
+                       SCL     EQU              (1<<4)
+   65 00000000         
+   66 00000000         ;*******************************************************
+                       **************
+   67 00000000         ; VARIABLE DEFINITIONS
+   68 00000000         ;*******************************************************
+                       **************
+   69 00000000                 PRESERVE8
+   70 00000000                 AREA             VARIABLES,DATA,READWRITE
+   71 00000000         
+   72 00000000         
+   73 00000000         ;*******************************************************
+                       ***********************
+   74 00000000         ; AREA DEFINITION
+   75 00000000         ;*******************************************************
+                       ***********************
+   76 00000000         
+   77 00000000                 PRESERVE8
+   78 00000000                 AREA             TWIPORT,CODE,READONLY
+   79 00000000                 ARM
+   80 00000000         
+   81 00000000         ;*******************************************************
+                       ***********************
+   82 00000000         ; INITIALIZATION ROUTINE
+   83 00000000         ; void TWI_MASTER_INIT(void)
+   84 00000000         ;
+   85 00000000         ; Sets up the TWI to master mode with a 25KHz clock Rate
+                       .  
+   86 00000000         ;*******************************************************
+                       ************************
+   87 00000000         
+   88 00000000                 EXPORT           TWI_MASTER_INIT
 
 
 
 ARM Macro Assembler    Page 23 
 
 
-                                                            RITY ERROR BITS (BI
-                                                            TS 5-7)   
-   61 00000000         
-   62 00000000         
-   63 00000000         
-   64 00000000 00000000 
-                       OVER_bit
-                               EQU              0
-   65 00000000 00002580 
-                       BAUD_RATE
-                               EQU              9600
-   66 00000000 00000138 
-                       BRGR_VAL
-                               EQU              (47923200/((2-OVER_bit)*8*BAUD_
-RATE)) 
-                                                            ; calculated by stu
-                                                            dent
-   67 00000000         
-   68 00000000 00000000 
-                       NO_ERROR
-                               EQU              0x0000
-   69 00000000 E0000000 
-                       TX_Error
-                               EQU              0xE0000000  ; defined by studen
-                                                            t
-   70 00000000 F0000000 
-                       RX_Error
-                               EQU              0xF0000000
-   71 00000000 C0000000 
-                       No_Char_Received
-                               EQU              0xC0000000
-   72 00000000         
-   73 00000000         
-   74 00000000         ;*******************************************************
-                       ***********************
-   75 00000000         ;* AREA DEFINITION
-   76 00000000         
-   77 00000000                 PRESERVE8
-   78 00000000                 AREA             COMPORT,CODE,READONLY
-   79 00000000                 ARM
-   80 00000000         
-   81 00000000         ;*******************************************************
-                       ***********************
-   82 00000000         ;* INITIALIZATION ROUTINE   void USART0_INIT(void)
-   83 00000000         ;*  Sets up USART0 to 8-N-1 with 9600 Baud Rate.  
-   84 00000000         ;*******************************************************
+   89 00000000         
+   90 00000000         TWI_MASTER_INIT
+   91 00000000 E92D4030        PUSH             {R4-R5,R14}
+   92 00000004         
+   93 00000004         ; ENABLE PERIPHERAL CLOCKS PIOA AND TWI
+   94 00000004 E59F4164        LDR              R4,=PMC_BASE
+   95 00000008 E3A05004        MOV              R5,#(1<<PIOA_PID)
+   96 0000000C E3855C02        ORR              R5,R5,#(1<<TWI_PID)
+   97 00000010 E5845010        STR              R5,[R4,#PMC_PCER]
+   98 00000014         
+   99 00000014         ; SETUP IO PINS
+  100 00000014 E59F4158        LDR              R4,=PIOA_BASE
+  101 00000018 E3A05008        MOV              R5,#SDA
+  102 0000001C E3855010        ORR              R5,R5,#SCL
+  103 00000020 E5845004        STR              R5,[R4,#PIO_PDR] ; DISABLE PIO
+  104 00000024 E5845070        STR              R5,[R4,#PIO_ASR] ; SELECT PERIP
+                                                            HERAL A
+  105 00000028 E5845050        STR              R5,[R4,#PIO_MDER] ; ENABLE MULT
+                                                            I-DRIVE
+  106 0000002C E5845060        STR              R5,[R4,#PIO_PUDR] ; DIABLE PULL
+                                                            -UP RESISTOR
+  107 00000030         
+  108 00000030         ; RESET
+  109 00000030 E59F4140        LDR              R4,=TWI_BASE
+  110 00000034 E3A05080        MOV              R5,#TWI_RST
+  111 00000038 E5845000        STR              R5,[R4,#TWI_CR]
+  112 0000003C         
+  113 0000003C         ; SET CLOCK
+  114 0000003C E59F5138        LDR              R5,=CWGR_VAL
+  115 00000040 E5845010        STR              R5,[R4,#TWI_CWGR]
+  116 00000044         
+  117 00000044         ; SET MODE
+  118 00000044 E3A05024        LDR              R5,=TWI_MSTR_MODE ; DISABLE SLA
+                                                            VE MODE, ENABLE MAS
+                                                            TER MODE
+  119 00000048 E5845000        STR              R5,[R4,#TWI_CR]
+  120 0000004C         
+  121 0000004C E8BD4030        POP              {R4-R5,R14}
+  122 00000050 E12FFF1E        BX               R14
+  123 00000054         
+  124 00000054         
+  125 00000054         ;*******************************************************
                        ************************
-   85 00000000         
-   86 00000000         
-   87 00000000                 EXPORT           USART0_INIT
-   88 00000000         
-   89 00000000         USART0_INIT
-   90 00000000 E92D4030        PUSH             {R4-R5,R14}
-   91 00000004 E59F40D8        LDR              R4,=PMC_BASE
-   92 00000008 E3A05002        MOV              R5,#PIOA_PID
-   93 0000000C E3855040        ORR              R5,R5,#(1<<USART0_PID)
-   94 00000010 E5845010        STR              R5,[R4,#PMC_PCER]
-   95 00000014 E59F40CC        LDR              R4,=USART0_BASE
-   96 00000018 E3A05F43        MOV              R5,#RESET_UART
+  126 00000054         ; TRANSMIT ROUTINE 
+  127 00000054         ; int TWI_WRITE (uint device_address, uint internal_addr
+                       ess, uint int_addr_bytes,
+  128 00000054         ;                uint number_of_bytes, uint * array)
+  129 00000054         ; R0 = device_address
+  130 00000054         ; R1 = internal_address
+  131 00000054         ; R2 = int_addr_bytes
+  132 00000054         ; R3 = number_of_bytes
+  133 00000054         ; STACK = *array
+  134 00000054         ;
+  135 00000054         ; Places the device address and int_addr_bytes into the 
+                       Master Mode Reg with the 
+  136 00000054         ; MREAD bit cleared to '0'. The internal address is plac
+                       ed in the internal
+  137 00000054         ; address register.  The parameter number_of_bytes indic
+                       ates how many bytes
 
 
 
 ARM Macro Assembler    Page 24 
 
 
-   97 0000001C E5845000        STR              R5,[R4,#US_CR]
-   98 00000020 E3A05D23        LDR              R5,=UART_MODE_REG
-   99 00000024 E5845004        STR              R5,[R4,#US_MR]
-  100 00000028 E3A05F4E        LDR              R5,=BRGR_VAL
-  101 0000002C E5845020        STR              R5,[R4,#US_BRGR]
-  102 00000030 E3A05050        MOV              R5,#RX_TX_EN
-  103 00000034 E5845000        STR              R5,[R4,#US_CR]
-  104 00000038 E59F40B0        LDR              R4,=PIOA_BASE
-  105 0000003C E3A05060        MOV              R5,#RX_TX_PINS
-  106 00000040 E5845004        STR              R5,[R4,#PIO_PDR] ; DISABLE PARA
-                                                            LLEL I/O, ENABLES P
-                                                            ERIPHERAL CONTROL
-  107 00000044 E5845070        STR              R5,[R4,#PIO_ASR] ; SELECTS THE 
-                                                            A PERIPHERAL
-  108 00000048 E8BD4030        POP              {R4-R5,R14}
-  109 0000004C E12FFF1E        BX               R14
-  110 00000050         
-  111 00000050         ;*******************************************************
+  138 00000054         ; from array will be transmitted.  An error flag is retu
+                       rned to indicate
+  139 00000054         ; if the slave device responds with an NACK_BIT.
+  140 00000054         ;*******************************************************
                        ************************
-  112 00000050         ;* TRANSMIT ROUTINE    int USART0_Transmit (int)
-  113 00000050         ;*  Value sent to routine in R0.  The value is limited t
-                       o 8 bits.
-  114 00000050         ;*  The value is placed in the transmit hold register of
-                        USART0
-  115 00000050         ;*  when it is empty.  An error flag is returned if a ti
-                       meout occurs or
-  116 00000050         ;*  if the input value is a non-printable value.
-  117 00000050         ;*******************************************************
-                       ************************
-  118 00000050         
-  119 00000050         
-  120 00000050                 EXPORT           USART0_Transmit
-  121 00000050         USART0_Transmit
-  122 00000050 E92D4030        PUSH             {R4-R5,R14}
-  123 00000054 E350007F        CMP              R0,#MAX_ASCII
-  124 00000058 83A0020E        MOVHI            R0,#TX_Error
-  125 0000005C 8A000005        BHI              CANNOT_SEND
-  126 00000060 E59F4080        LDR              R4,=USART0_BASE
-  127 00000064 E5945014 
-                       TX_LOOP LDR              R5,[R4,#US_CSR]
-  128 00000068 E3150002        TST              R5,#TXRDY
-  129 0000006C 0AFFFFFC        BEQ              TX_LOOP
-  130 00000070 E584001C        STR              R0,[R4,#US_THR]
-  131 00000074 E3A00000        MOV              R0,#NO_ERROR
-  132 00000078 E8BD4030 
-                       CANNOT_SEND
-                               POP              {R4-R5,R14}
-  133 0000007C E12FFF1E        BX               R14
-  134 00000080         
-  135 00000080         ;*******************************************************
-                       ***************************
-  136 00000080         ;* RECEIVE ROUTINE (W/POLLING)  int USART0_Receive(void)
-                       
-  137 00000080         ;*  Continuously polls the RXRDY bit until a character i
-                       s received.  The
-  138 00000080         ;*  received character is returned in R0.  The error bit
-                       s for parity
-  139 00000080         ;*  frame and over run are checked and an error flag is 
-                       returned
+  141 00000054         
+  142 00000054                 EXPORT           TWI_MASTER_WRITE
+  143 00000054         
+  144 00000054         TWI_MASTER_WRITE
+  145 00000054 E92D40F0        PUSH             {R4-R7,R14}
+  146 00000058         
+  147 00000058 E59D4014        LDR              R4,[R13,#20] ; GET *ARRAY
+  148 0000005C         
+  149 0000005C         ; PLACE DEV_ADDR, CLEAR MREAD, SET INT_ADDR_SZ
+  150 0000005C E59F5114        LDR              R5,=TWI_BASE
+  151 00000060 E1A00800        MOV              R0,R0,LSL#16
+  152 00000064 E1800402        ORR              R0,R0,R2,LSL#8
+  153 00000068 E5850004        STR              R0,[R5,#TWI_MMR]
+  154 0000006C E585100C        STR              R1,[R5,#TWI_IADR]
+  155 00000070         
+  156 00000070 E3A07000        MOV              R7,#0       ; INDEX
+  157 00000074 E3A06000        MOV              R6,#0       ; STATUS FLAGS
+  158 00000078         
+  159 00000078         WHILE_WRITE
+  160 00000078 E3160C01        TST              R6,#NACK_BIT
+  161 0000007C 1A00000A        BNE              EXIT_ERR_W  ; NACK_BIT RECEIVED
+                                                            
+  162 00000080 E1570003        CMP              R7,R3
+  163 00000084 2A000006        BHS              EXIT_WW
+  164 00000088 E7D46007        LDRB             R6,[R4,R7]
+  165 0000008C E5C56034        STRB             R6,[R5,#TWI_THR]
+  166 00000090         
+  167 00000090         DO_LOOP_W
+  168 00000090 E5956020        LDR              R6,[R5,#TWI_SR]
+  169 00000094 E3160F41        TST              R6,#(TxRDY_BIT :OR: NACK_BIT)
+  170 00000098 0AFFFFFC        BEQ              DO_LOOP_W
+  171 0000009C E2877001        ADD              R7,R7,#1
+  172 000000A0 EAFFFFF4        B                WHILE_WRITE
+  173 000000A4         
+  174 000000A4         EXIT_WW
+  175 000000A4 E3A00000        MOV              R0,#0       ; NO ERRORS
+  176 000000A8 EA000000        B                DO_LOOP_CW
+  177 000000AC         
+  178 000000AC         EXIT_ERR_W
+  179 000000AC E3A00201        LDR              R0,=NACK_ERROR
+  180 000000B0         
+  181 000000B0         DO_LOOP_CW
+  182 000000B0 E5956020        LDR              R6,[R5,#TWI_SR]
+  183 000000B4 E2066001        AND              R6,R6,#1    ;TST R6, #TxCOMP_BI
+                                                            T
+  184 000000B8 E3360001        TEQ              R6,#1       ; CHECK IF TxCOMP =
+                                                             1  ;BEQ DO_LOOP_CW
+                                                            
+  185 000000BC 1AFFFFFB        BNE              DO_LOOP_CW
+  186 000000C0         
+  187 000000C0 E8BD40F0        POP              {R4-R7,R14}
+  188 000000C4         ; SUB SP,SP,#4 ; GO DOWN TO NEXT STACK ITEM TO "POP" *AR
+                       RAY
+  189 000000C4 E12FFF1E        BX               R14
 
 
 
 ARM Macro Assembler    Page 25 
 
 
-  140 00000080         ;*  instead of the received character.
-  141 00000080         ;*******************************************************
+  190 000000C8         
+  191 000000C8         
+  192 000000C8         ;*******************************************************
                        ***************************
-  142 00000080         
-  143 00000080         
-  144 00000080                 EXPORT           USART0_Receive
-  145 00000080         USART0_Receive
-  146 00000080 E92D4030        PUSH             {R4-R5,R14}
-  147 00000084 E59F405C        LDR              R4,=USART0_BASE
-  148 00000088 E5945014 
-                       RX_LOOP LDR              R5,[R4,#US_CSR]
-  149 0000008C E3150001        TST              R5,#RXRDY
-  150 00000090 0AFFFFFC        BEQ              RX_LOOP
-  151 00000094 E5940018        LDR              R0,[R4,#US_RHR]
-  152 00000098 E5945014        LDR              R5,[R4,#US_CSR]
-  153 0000009C E31500E0        TST              R5,#ERR_BITS
-  154 000000A0 13A0020F        MOVNE            R0,#RX_Error
-  155 000000A4 13A05C01        MOVNE            R5,#RESET_STA
-  156 000000A8 15845000        STRNE            R5,[R4,#US_CR]
-  157 000000AC E8BD4030        POP              {R4-R5,R14}
-  158 000000B0 E12FFF1E        BX               R14
-  159 000000B4         
-  160 000000B4         ;*******************************************************
+  193 000000C8         ; RECEIVE ROUTINE 
+  194 000000C8         ; int TWI_READ (uint device_address, uint internal_addre
+                       ss, uint int_addr_bytes,
+  195 000000C8         ;               uint number_of_bytes, uint * array)
+  196 000000C8         ; R0 = device_address
+  197 000000C8         ; R1 = internal_address
+  198 000000C8         ; R2 = int_addr_bytes
+  199 000000C8         ; R3 = number_of_bytes
+  200 000000C8         ; STACK = *array
+  201 000000C8         ;
+  202 000000C8         ; Places the device address and int_addr_bytes into the 
+                       Master Mode Reg with the 
+  203 000000C8         ; MREAD bit set to '1'. The internal address is placed i
+                       n the internal
+  204 000000C8         ; address register.  The parameter number_of_bytes indic
+                       ates how many bytes
+  205 000000C8         ; should be read from the slave device.  The transmissio
+                       n is started by
+  206 000000C8         ; writing a '1' to the START bit.  A '1' should be writt
+                       en to the STOP bit 
+  207 000000C8         ; before the last byte is received.  If only one byte is
+                        to be received,   
+  208 000000C8         ; then both a '1' should be written to both START and ST
+                       OP.
+  209 000000C8         ;*******************************************************
                        ***************************
-  161 000000B4         ;* RECEIVE ROUTINE (W/EOF RETURN) int USART0_Receive_Che
-                       ck(void)
-  162 000000B4         ;*  Checks the RXRDY bit to see if a character has been 
-                       received.  If not, then
-  163 000000B4         ;*  a no character flag is returned.  If a character has
-                        been received, then that 
-  164 000000B4         ;*  character is returned in R0.  The errors bits for pa
-                       rity, frame and
-  165 000000B4         ;*  over run are checked and if any are set, then an err
-                       or flag is
-  166 000000B4         ;*  returned instead of the character.
-  167 000000B4         ;*******************************************************
-                       ***************************
-  168 000000B4         
-  169 000000B4         
-  170 000000B4                 EXPORT           USART0_Receive_Check
-  171 000000B4         USART0_Receive_Check
-  172 000000B4 E92D4030        PUSH             {R4-R5,R14}
-  173 000000B8 E59F4028        LDR              R4,=USART0_BASE
-  174 000000BC E3A00103        MOV              R0,#No_Char_Received
-  175 000000C0 E5945014        LDR              R5,[R4,#US_CSR]
-  176 000000C4 E3150001        TST              R5,#RXRDY
-  177 000000C8 15940018        LDRNE            R0,[R4,#US_RHR]
-  178 000000CC E31500E0        TST              R5,#ERR_BITS
-  179 000000D0 13A00C01        MOVNE            R0,#RESET_STA
-  180 000000D4 15840000        STRNE            R0,[R4,#US_CR]
-  181 000000D8 13A0020F        MOVNE            R0,#RX_Error
-  182 000000DC E8BD4030        POP              {R4-R5,R14}
-  183 000000E0 E12FFF1E        BX               R14
-  184 000000E4         
-  185 000000E4         
-  186 000000E4         
-  187 000000E4                 END
-              FFFFFC00 
-              FFFC0000 
+  210 000000C8         
+  211 000000C8                 EXPORT           TWI_MASTER_READ
+  212 000000C8         
+  213 000000C8         TWI_MASTER_READ
+  214 000000C8 E92D41F0        PUSH             {R4-R8,R14}
+  215 000000CC         
+  216 000000CC         ; PLACE DEV_ADDR, SET MREAD, SET INT_ADDR_SZ
+  217 000000CC E59F50A4        LDR              R5,=TWI_BASE
+  218 000000D0 E1A00800        MOV              R0,R0,LSL#16
+  219 000000D4 E1800402        ORR              R0,R0,R2,LSL#8
+  220 000000D8 E3800A01        ORR              R0,R0,#MREAD_BIT
+  221 000000DC E5850004        STR              R0,[R5,#TWI_MMR]
+  222 000000E0 E585100C        STR              R1,[R5,#TWI_IADR]
+  223 000000E4         
+  224 000000E4 E59D4018        LDR              R4,[SP,#24] ; GET ARRAY FROM ST
+                                                            ACK
+  225 000000E8 E3A07000        MOV              R7,#0       ; INDEX
+  226 000000EC E3A06000        MOV              R6,#0       ; STATUS FLAGS
+  227 000000F0         
+  228 000000F0 E3A08001        MOV              R8,#START
+  229 000000F4 E3330001        TEQ              R3,#1
+  230 000000F8 1A000000        BNE              SEND_START  ; BRANCH IF SENDING
+                                                             MULTIPLE BYTES
+  231 000000FC E2888002        ADD              R8,R8,#STOP ; SEND STOP AND STA
+                                                            RT FOR ONLY 1 BYTE
+  232 00000100         
+  233 00000100         SEND_START
+  234 00000100 E5858000        STR              R8,[R5,#TWI_CR] ; SEND START
+  235 00000104         
 
 
 
 ARM Macro Assembler    Page 26 
 
 
-              00000000 
+  236 00000104         WHILE_READ
+  237 00000104 E3160D05        TST              R6,#(NACK_BIT :OR: OVRE_BIT)
+  238 00000108 1A000011        BNE              EXIT_ERR_R
+  239 0000010C E1570003        CMP              R7,R3
+  240 00000110 2A00000D        BHS              EXIT_WR
+  241 00000114         
+  242 00000114         DO_LOOP_R
+  243 00000114         
+  244 00000114 E5956020        LDR              R6,[R5,#TWI_SR]
+  245 00000118 E3160C01        TST              R6,#(NACK_BIT)
+  246 0000011C 1AFFFFF8        BNE              WHILE_READ
+  247 00000120 E3160002        TST              R6, #RxRDY_BIT
+  248 00000124 0AFFFFFA        BEQ              DO_LOOP_R
+  249 00000128         
+  250 00000128 E5951030        LDR              R1,[R5,#TWI_RHR]
+  251 0000012C E7C41007        STRB             R1,[R4,R7]
+  252 00000130 E2877001        ADD              R7,R7,#1
+  253 00000134 E0431007        SUB              R1,R3,R7
+  254 00000138 E3310001        TEQ              R1,#1       ; CHECK FOR LAST BY
+                                                            TE
+  255 0000013C 1AFFFFF0        BNE              WHILE_READ
+  256 00000140 E3A01002        MOV              R1,#STOP
+  257 00000144 E5851000        STR              R1,[R5,#TWI_CR] ; SEND STOP
+  258 00000148 EAFFFFED        B                WHILE_READ
+  259 0000014C         
+  260 0000014C         EXIT_WR
+  261 0000014C E3A00000        MOV              R0,#0       ; NO ERRORS
+  262 00000150 EA000000        B                DO_LOOP_CR
+  263 00000154         
+  264 00000154         EXIT_ERR_R
+  265 00000154 E3A00201        LDR              R0,=NACK_ERROR
+  266 00000158         
+  267 00000158         DO_LOOP_CR
+  268 00000158 E5956020        LDR              R6,[R5,#TWI_SR]
+  269 0000015C E2066001        AND              R6,R6,#TxCOMP_BIT
+  270 00000160 E3360001        TEQ              R6,#TxCOMP_BIT ; CHECK IF TxCOM
+                                                            P = 1
+  271 00000164 1AFFFFFB        BNE              DO_LOOP_CR
+  272 00000168         
+  273 00000168 E8BD41F0        POP              {R4-R8,R14}
+  274 0000016C         ; SUB SP,SP,#4 ; GO DOWN TO NEXT STACK ITEM TO "POP" *AR
+                       RAY
+  275 0000016C E12FFF1E        BX               R14
+  276 00000170         
+  277 00000170         
+  278 00000170                 END
+              FFFFFC00 
               FFFFF400 
-Command Line: --debug --xref --apcs=interwork --depend=.\usart0_solution.d -o.\
-usart0_solution.o -IC:\KeilARM\ARM\RV31\INC -IC:\KeilARM\ARM\CMSIS\Include -IC:
-\KeilARM\ARM\Inc\Atmel\SAM7SE --predefine="__EVAL SETA 1" --list=.\usart0_solut
-ion.lst USART0_solution.s
+              FFFB8000 
+              0002EFEF 
+Command Line: --debug --xref --apcs=interwork --depend=.\twi.d -o.\twi.o -IC:\K
+eilARM\ARM\RV31\INC -IC:\KeilARM\ARM\CMSIS\Include -IC:\KeilARM\ARM\Inc\Atmel\S
+AM7SE --predefine="__EVAL SETA 1" --list=.\twi.lst TWI.s
 
 
 
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Relocatable symbols
 
-CANNOT_SEND 00000078
+VARIABLES 00000000
 
-Symbol: CANNOT_SEND
+Symbol: VARIABLES
    Definitions
-      At line 132 in file USART0_solution.s
-   Uses
-      At line 125 in file USART0_solution.s
-Comment: CANNOT_SEND used once
-COMPORT 00000000
-
-Symbol: COMPORT
-   Definitions
-      At line 78 in file USART0_solution.s
+      At line 70 in file TWI.s
    Uses
       None
-Comment: COMPORT unused
-RX_LOOP 00000088
+Comment: VARIABLES unused
+1 symbol
 
-Symbol: RX_LOOP
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+DO_LOOP_CR 00000158
+
+Symbol: DO_LOOP_CR
    Definitions
-      At line 148 in file USART0_solution.s
+      At line 267 in file TWI.s
    Uses
-      At line 150 in file USART0_solution.s
-Comment: RX_LOOP used once
-TX_LOOP 00000064
+      At line 262 in file TWI.s
+      At line 271 in file TWI.s
 
-Symbol: TX_LOOP
+DO_LOOP_CW 000000B0
+
+Symbol: DO_LOOP_CW
    Definitions
-      At line 127 in file USART0_solution.s
+      At line 181 in file TWI.s
    Uses
-      At line 129 in file USART0_solution.s
-Comment: TX_LOOP used once
-USART0_INIT 00000000
+      At line 176 in file TWI.s
+      At line 185 in file TWI.s
 
-Symbol: USART0_INIT
+DO_LOOP_R 00000114
+
+Symbol: DO_LOOP_R
    Definitions
-      At line 89 in file USART0_solution.s
+      At line 242 in file TWI.s
    Uses
-      At line 87 in file USART0_solution.s
-Comment: USART0_INIT used once
-USART0_Receive 00000080
+      At line 248 in file TWI.s
+Comment: DO_LOOP_R used once
+DO_LOOP_W 00000090
 
-Symbol: USART0_Receive
+Symbol: DO_LOOP_W
    Definitions
-      At line 145 in file USART0_solution.s
+      At line 167 in file TWI.s
    Uses
-      At line 144 in file USART0_solution.s
-Comment: USART0_Receive used once
-USART0_Receive_Check 000000B4
+      At line 170 in file TWI.s
+Comment: DO_LOOP_W used once
+EXIT_ERR_R 00000154
 
-Symbol: USART0_Receive_Check
+Symbol: EXIT_ERR_R
    Definitions
-      At line 171 in file USART0_solution.s
+      At line 264 in file TWI.s
    Uses
-      At line 170 in file USART0_solution.s
-Comment: USART0_Receive_Check used once
-USART0_Transmit 00000050
+      At line 238 in file TWI.s
+Comment: EXIT_ERR_R used once
+EXIT_ERR_W 000000AC
 
-Symbol: USART0_Transmit
+Symbol: EXIT_ERR_W
+   Definitions
+      At line 178 in file TWI.s
+   Uses
+      At line 161 in file TWI.s
+Comment: EXIT_ERR_W used once
+EXIT_WR 0000014C
+
+Symbol: EXIT_WR
+   Definitions
+      At line 260 in file TWI.s
+   Uses
+      At line 240 in file TWI.s
+Comment: EXIT_WR used once
+EXIT_WW 000000A4
 
 
 
 ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 Relocatable symbols
 
+
+Symbol: EXIT_WW
    Definitions
-      At line 121 in file USART0_solution.s
+      At line 174 in file TWI.s
    Uses
-      At line 120 in file USART0_solution.s
-Comment: USART0_Transmit used once
-8 symbols
+      At line 163 in file TWI.s
+Comment: EXIT_WW used once
+SEND_START 00000100
+
+Symbol: SEND_START
+   Definitions
+      At line 233 in file TWI.s
+   Uses
+      At line 230 in file TWI.s
+Comment: SEND_START used once
+TWIPORT 00000000
+
+Symbol: TWIPORT
+   Definitions
+      At line 78 in file TWI.s
+   Uses
+      None
+Comment: TWIPORT unused
+TWI_MASTER_INIT 00000000
+
+Symbol: TWI_MASTER_INIT
+   Definitions
+      At line 90 in file TWI.s
+   Uses
+      At line 88 in file TWI.s
+Comment: TWI_MASTER_INIT used once
+TWI_MASTER_READ 000000C8
+
+Symbol: TWI_MASTER_READ
+   Definitions
+      At line 213 in file TWI.s
+   Uses
+      At line 211 in file TWI.s
+Comment: TWI_MASTER_READ used once
+TWI_MASTER_WRITE 00000054
+
+Symbol: TWI_MASTER_WRITE
+   Definitions
+      At line 144 in file TWI.s
+   Uses
+      At line 142 in file TWI.s
+Comment: TWI_MASTER_WRITE used once
+WHILE_READ 00000104
+
+Symbol: WHILE_READ
+   Definitions
+      At line 236 in file TWI.s
+   Uses
+      At line 246 in file TWI.s
+      At line 255 in file TWI.s
+      At line 258 in file TWI.s
+
+WHILE_WRITE 00000078
+
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Relocatable symbols
+
+Symbol: WHILE_WRITE
+   Definitions
+      At line 159 in file TWI.s
+   Uses
+      At line 172 in file TWI.s
+Comment: WHILE_WRITE used once
+15 symbols
 
 
 
@@ -2114,76 +2242,22 @@ Symbol: AIC_SVR6
    Uses
       None
 Comment: AIC_SVR6 unused
-BAUD_RATE 00002580
+CHDIV 000000EF
 
-Symbol: BAUD_RATE
+Symbol: CHDIV
    Definitions
-      At line 65 in file USART0_solution.s
+      At line 48 in file TWI.s
    Uses
-      At line 66 in file USART0_solution.s
-Comment: BAUD_RATE used once
-BRGR_VAL 00000138
+      At line 49 in file TWI.s
+Comment: CHDIV used once
+CKDIV 00000002
 
-Symbol: BRGR_VAL
+Symbol: CKDIV
    Definitions
-      At line 66 in file USART0_solution.s
+      At line 41 in file TWI.s
    Uses
-      At line 100 in file USART0_solution.s
-Comment: BRGR_VAL used once
-CHMODE 0000000E
-
-Symbol: CHMODE
-   Definitions
-      At line 44 in file USART0_solution.s
-   Uses
-      At line 52 in file USART0_solution.s
-Comment: CHMODE used once
-CHRL 00000006
-
-Symbol: CHRL
-   Definitions
-      At line 28 in file USART0_solution.s
-   Uses
-      At line 52 in file USART0_solution.s
-Comment: CHRL used once
-CHRL_5 00000000
-
-Symbol: CHRL_5
-   Definitions
-      At line 29 in file USART0_solution.s
-   Uses
-      None
-Comment: CHRL_5 unused
-CHRL_6 00000001
-
-Symbol: CHRL_6
-   Definitions
-      At line 30 in file USART0_solution.s
-   Uses
-      None
-Comment: CHRL_6 unused
-CHRL_7 00000002
-
-Symbol: CHRL_7
-   Definitions
-      At line 31 in file USART0_solution.s
-
-
-
-ARM Macro Assembler    Page 8 Alphabetic symbol ordering
-Absolute symbols
-
-   Uses
-      None
-Comment: CHRL_7 unused
-CHRL_8 00000003
-
-Symbol: CHRL_8
-   Definitions
-      At line 32 in file USART0_solution.s
-   Uses
-      At line 52 in file USART0_solution.s
-Comment: CHRL_8 used once
+      At line 49 in file TWI.s
+Comment: CKDIV used once
 CKGR_BASE FFFFFC20
 
 Symbol: CKGR_BASE
@@ -2216,6 +2290,37 @@ Symbol: CKGR_PLLR
    Uses
       None
 Comment: CKGR_PLLR unused
+CLDIV 000000EF
+
+Symbol: CLDIV
+   Definitions
+      At line 47 in file TWI.s
+
+
+
+ARM Macro Assembler    Page 8 Alphabetic symbol ordering
+Absolute symbols
+
+   Uses
+      At line 49 in file TWI.s
+Comment: CLDIV used once
+CWGR_VAL 0002EFEF
+
+Symbol: CWGR_VAL
+   Definitions
+      At line 49 in file TWI.s
+   Uses
+      At line 114 in file TWI.s
+Comment: CWGR_VAL used once
+CxDIV 000000EF
+
+Symbol: CxDIV
+   Definitions
+      At line 46 in file TWI.s
+   Uses
+      At line 47 in file TWI.s
+      At line 48 in file TWI.s
+
 EBI_BASE FFFFFF80
 
 Symbol: EBI_BASE
@@ -2232,12 +2337,6 @@ Symbol: EBI_CSA
    Uses
       None
 Comment: EBI_CSA unused
-
-
-
-ARM Macro Assembler    Page 9 Alphabetic symbol ordering
-Absolute symbols
-
 ECC_BASE FFFFFFDC
 
 Symbol: ECC_BASE
@@ -2261,6 +2360,12 @@ Symbol: ECC_MR
       At line 476 in file AT91SAM7SE512.INC
    Uses
       None
+
+
+
+ARM Macro Assembler    Page 9 Alphabetic symbol ordering
+Absolute symbols
+
 Comment: ECC_MR unused
 ECC_NPR 00000010
 
@@ -2297,12 +2402,6 @@ Comment: EFC0_FMR unused
 EFC0_FMR_Val 00320100
 
 Symbol: EFC0_FMR_Val
-
-
-
-ARM Macro Assembler    Page 10 Alphabetic symbol ordering
-Absolute symbols
-
    Definitions
       At line 43 in file AT91SAM7SE512.INC
    Uses
@@ -2326,6 +2425,12 @@ Symbol: EFC1_FMR
 Comment: EFC1_FMR unused
 EFC1_FMR_Val 00320100
 
+
+
+
+ARM Macro Assembler    Page 10 Alphabetic symbol ordering
+Absolute symbols
+
 Symbol: EFC1_FMR_Val
    Definitions
       At line 55 in file AT91SAM7SE512.INC
@@ -2348,26 +2453,11 @@ Symbol: EFC_BASE
    Uses
       None
 Comment: EFC_BASE unused
-ERR_BITS 000000E0
-
-Symbol: ERR_BITS
-   Definitions
-      At line 60 in file USART0_solution.s
-   Uses
-      At line 153 in file USART0_solution.s
-      At line 178 in file USART0_solution.s
-
 FLASH_BASE 00100000
 
 Symbol: FLASH_BASE
    Definitions
       At line 17 in file AT91SAM7SE512.INC
-
-
-
-ARM Macro Assembler    Page 11 Alphabetic symbol ordering
-Absolute symbols
-
    Uses
       None
 Comment: FLASH_BASE unused
@@ -2379,14 +2469,6 @@ Symbol: F_Bit
    Uses
       None
 Comment: F_Bit unused
-HW_HANDSHAKE 00000002
-
-Symbol: HW_HANDSHAKE
-   Definitions
-      At line 22 in file USART0_solution.s
-   Uses
-      None
-Comment: HW_HANDSHAKE unused
 I_Bit 00000080
 
 Symbol: I_Bit
@@ -2395,30 +2477,28 @@ Symbol: I_Bit
    Uses
       None
 Comment: I_Bit unused
-MAX_ASCII 0000007F
+MCK 02DB4000
 
-Symbol: MAX_ASCII
+Symbol: MCK
    Definitions
-      At line 57 in file USART0_solution.s
-   Uses
-      At line 123 in file USART0_solution.s
-Comment: MAX_ASCII used once
-MODE9 00000011
-
-Symbol: MODE9
-   Definitions
-      At line 45 in file USART0_solution.s
+      At line 31 in file TWI.s
    Uses
       None
-Comment: MODE9 unused
-MODEM_MODE 00000003
+Comment: MCK unused
+MREAD_BIT 00001000
 
-Symbol: MODEM_MODE
+Symbol: MREAD_BIT
    Definitions
-      At line 23 in file USART0_solution.s
+      At line 19 in file TWI.s
+
+
+
+ARM Macro Assembler    Page 11 Alphabetic symbol ordering
+Absolute symbols
+
    Uses
-      None
-Comment: MODEM_MODE unused
+      At line 220 in file TWI.s
+Comment: MREAD_BIT used once
 Mode_ABT 00000017
 
 Symbol: Mode_ABT
@@ -2427,12 +2507,6 @@ Symbol: Mode_ABT
    Uses
       None
 Comment: Mode_ABT unused
-
-
-
-ARM Macro Assembler    Page 12 Alphabetic symbol ordering
-Absolute symbols
-
 Mode_FIQ 00000011
 
 Symbol: Mode_FIQ
@@ -2481,123 +2555,48 @@ Symbol: Mode_USR
    Uses
       None
 Comment: Mode_USR unused
-NB_STOP 0000000C
-
-Symbol: NB_STOP
-   Definitions
-      At line 40 in file USART0_solution.s
-   Uses
-      At line 52 in file USART0_solution.s
-Comment: NB_STOP used once
-NORMAL_MODE 00000000
-
-Symbol: NORMAL_MODE
 
 
 
-ARM Macro Assembler    Page 13 Alphabetic symbol ordering
+ARM Macro Assembler    Page 12 Alphabetic symbol ordering
 Absolute symbols
 
+NACK_BIT 00000100
+
+Symbol: NACK_BIT
    Definitions
-      At line 20 in file USART0_solution.s
+      At line 22 in file TWI.s
    Uses
-      At line 52 in file USART0_solution.s
-Comment: NORMAL_MODE used once
-NO_ERROR 00000000
+      At line 160 in file TWI.s
+      At line 169 in file TWI.s
+      At line 237 in file TWI.s
+      At line 245 in file TWI.s
 
-Symbol: NO_ERROR
+NACK_ERROR 10000000
+
+Symbol: NACK_ERROR
    Definitions
-      At line 68 in file USART0_solution.s
+      At line 59 in file TWI.s
    Uses
-      At line 131 in file USART0_solution.s
-Comment: NO_ERROR used once
-No_Char_Received C0000000
+      At line 179 in file TWI.s
+      At line 265 in file TWI.s
 
-Symbol: No_Char_Received
+OVRE_BIT 00000040
+
+Symbol: OVRE_BIT
    Definitions
-      At line 71 in file USART0_solution.s
+      At line 23 in file TWI.s
    Uses
-      At line 174 in file USART0_solution.s
-Comment: No_Char_Received used once
-OVER 00000013
+      At line 237 in file TWI.s
+Comment: OVRE_BIT used once
+OVRE_ERROR 20000000
 
-Symbol: OVER
+Symbol: OVRE_ERROR
    Definitions
-      At line 46 in file USART0_solution.s
-   Uses
-      At line 52 in file USART0_solution.s
-Comment: OVER used once
-OVER_bit 00000000
-
-Symbol: OVER_bit
-   Definitions
-      At line 64 in file USART0_solution.s
-   Uses
-      At line 52 in file USART0_solution.s
-      At line 66 in file USART0_solution.s
-
-PAR 00000009
-
-Symbol: PAR
-   Definitions
-      At line 33 in file USART0_solution.s
-   Uses
-      At line 52 in file USART0_solution.s
-Comment: PAR used once
-PAR_EVEN 00000000
-
-Symbol: PAR_EVEN
-   Definitions
-      At line 34 in file USART0_solution.s
+      At line 60 in file TWI.s
    Uses
       None
-Comment: PAR_EVEN unused
-PAR_MARK 00000003
-
-Symbol: PAR_MARK
-   Definitions
-      At line 37 in file USART0_solution.s
-
-
-
-ARM Macro Assembler    Page 14 Alphabetic symbol ordering
-Absolute symbols
-
-   Uses
-      None
-Comment: PAR_MARK unused
-PAR_MULTI 00000006
-
-Symbol: PAR_MULTI
-   Definitions
-      At line 39 in file USART0_solution.s
-   Uses
-      None
-Comment: PAR_MULTI unused
-PAR_NONE 00000004
-
-Symbol: PAR_NONE
-   Definitions
-      At line 38 in file USART0_solution.s
-   Uses
-      At line 52 in file USART0_solution.s
-Comment: PAR_NONE used once
-PAR_ODD 00000001
-
-Symbol: PAR_ODD
-   Definitions
-      At line 35 in file USART0_solution.s
-   Uses
-      None
-Comment: PAR_ODD unused
-PAR_SPACE 00000002
-
-Symbol: PAR_SPACE
-   Definitions
-      At line 36 in file USART0_solution.s
-   Uses
-      None
-Comment: PAR_SPACE unused
+Comment: OVRE_ERROR unused
 PDC_PTCR 00000020
 
 Symbol: PDC_PTCR
@@ -2621,13 +2620,13 @@ Symbol: PDC_RCR
       At line 390 in file AT91SAM7SE512.INC
    Uses
       None
-Comment: PDC_RCR unused
 
 
 
-ARM Macro Assembler    Page 15 Alphabetic symbol ordering
+ARM Macro Assembler    Page 13 Alphabetic symbol ordering
 Absolute symbols
 
+Comment: PDC_RCR unused
 PDC_RNCR 00000014
 
 Symbol: PDC_RNCR
@@ -2686,17 +2685,17 @@ Symbol: PDC_TPR
 Comment: PDC_TPR unused
 PIOA_BASE FFFFF400
 
-Symbol: PIOA_BASE
 
 
 
-ARM Macro Assembler    Page 16 Alphabetic symbol ordering
+ARM Macro Assembler    Page 14 Alphabetic symbol ordering
 Absolute symbols
 
+Symbol: PIOA_BASE
    Definitions
       At line 212 in file AT91SAM7SE512.INC
    Uses
-      At line 104 in file USART0_solution.s
+      At line 100 in file TWI.s
 Comment: PIOA_BASE used once
 PIOA_PID 00000002
 
@@ -2704,7 +2703,7 @@ Symbol: PIOA_PID
    Definitions
       At line 79 in file AT91SAM7SE512.INC
    Uses
-      At line 92 in file USART0_solution.s
+      At line 95 in file TWI.s
 Comment: PIOA_PID used once
 PIOA_PID_BIT 00000004
 
@@ -2751,13 +2750,13 @@ PIOC_PID 00000004
 Symbol: PIOC_PID
    Definitions
       At line 81 in file AT91SAM7SE512.INC
-   Uses
 
 
 
-ARM Macro Assembler    Page 17 Alphabetic symbol ordering
+ARM Macro Assembler    Page 15 Alphabetic symbol ordering
 Absolute symbols
 
+   Uses
       None
 Comment: PIOC_PID unused
 PIOC_PID_BIT 00000010
@@ -2782,7 +2781,7 @@ Symbol: PIO_ASR
    Definitions
       At line 238 in file AT91SAM7SE512.INC
    Uses
-      At line 107 in file USART0_solution.s
+      At line 104 in file TWI.s
 Comment: PIO_ASR used once
 PIO_BSR 00000074
 
@@ -2816,13 +2815,13 @@ Symbol: PIO_IER
    Uses
       None
 Comment: PIO_IER unused
-PIO_IFDR 00000024
 
 
 
-ARM Macro Assembler    Page 18 Alphabetic symbol ordering
+ARM Macro Assembler    Page 16 Alphabetic symbol ordering
 Absolute symbols
 
+PIO_IFDR 00000024
 
 Symbol: PIO_IFDR
    Definitions
@@ -2876,18 +2875,18 @@ Symbol: PIO_MDER
    Definitions
       At line 232 in file AT91SAM7SE512.INC
    Uses
-      None
-Comment: PIO_MDER unused
+      At line 105 in file TWI.s
+Comment: PIO_MDER used once
 PIO_MDSR 00000058
 
 Symbol: PIO_MDSR
-   Definitions
 
 
 
-ARM Macro Assembler    Page 19 Alphabetic symbol ordering
+ARM Macro Assembler    Page 17 Alphabetic symbol ordering
 Absolute symbols
 
+   Definitions
       At line 234 in file AT91SAM7SE512.INC
    Uses
       None
@@ -2946,13 +2945,13 @@ Symbol: PIO_OWSR
    Definitions
       At line 243 in file AT91SAM7SE512.INC
    Uses
-      None
 
 
 
-ARM Macro Assembler    Page 20 Alphabetic symbol ordering
+ARM Macro Assembler    Page 18 Alphabetic symbol ordering
 Absolute symbols
 
+      None
 Comment: PIO_OWSR unused
 PIO_PDR 00000004
 
@@ -2960,7 +2959,7 @@ Symbol: PIO_PDR
    Definitions
       At line 216 in file AT91SAM7SE512.INC
    Uses
-      At line 106 in file USART0_solution.s
+      At line 103 in file TWI.s
 Comment: PIO_PDR used once
 PIO_PDSR 0000003C
 
@@ -2992,8 +2991,8 @@ Symbol: PIO_PUDR
    Definitions
       At line 235 in file AT91SAM7SE512.INC
    Uses
-      None
-Comment: PIO_PUDR unused
+      At line 106 in file TWI.s
+Comment: PIO_PUDR used once
 PIO_PUER 00000064
 
 Symbol: PIO_PUER
@@ -3014,9 +3013,9 @@ PIO_SODR 00000030
 
 
 
-
-ARM Macro Assembler    Page 21 Alphabetic symbol ordering
+ARM Macro Assembler    Page 19 Alphabetic symbol ordering
 Absolute symbols
+
 
 Symbol: PIO_SODR
    Definitions
@@ -3070,19 +3069,19 @@ Symbol: PMC_BASE
    Definitions
       At line 96 in file AT91SAM7SE512.INC
    Uses
-      At line 91 in file USART0_solution.s
+      At line 94 in file TWI.s
 Comment: PMC_BASE used once
 PMC_CSS 00000003
 
 Symbol: PMC_CSS
    Definitions
-      At line 110 in file AT91SAM7SE512.INC
 
 
 
-ARM Macro Assembler    Page 22 Alphabetic symbol ordering
+ARM Macro Assembler    Page 20 Alphabetic symbol ordering
 Absolute symbols
 
+      At line 110 in file AT91SAM7SE512.INC
    Uses
       None
 Comment: PMC_CSS unused
@@ -3141,13 +3140,13 @@ Symbol: PMC_MCKR
       At line 100 in file AT91SAM7SE512.INC
    Uses
       None
-Comment: PMC_MCKR unused
 
 
 
-ARM Macro Assembler    Page 23 Alphabetic symbol ordering
+ARM Macro Assembler    Page 21 Alphabetic symbol ordering
 Absolute symbols
 
+Comment: PMC_MCKR unused
 PMC_MCKRDY 00000008
 
 Symbol: PMC_MCKRDY
@@ -3206,13 +3205,13 @@ Symbol: PMC_MUL
 Comment: PMC_MUL unused
 PMC_OSCBYPASS 00000002
 
-Symbol: PMC_OSCBYPASS
 
 
 
-ARM Macro Assembler    Page 24 Alphabetic symbol ordering
+ARM Macro Assembler    Page 22 Alphabetic symbol ordering
 Absolute symbols
 
+Symbol: PMC_OSCBYPASS
    Definitions
       At line 103 in file AT91SAM7SE512.INC
    Uses
@@ -3248,7 +3247,7 @@ Symbol: PMC_PCER
    Definitions
       At line 118 in file AT91SAM7SE512.INC
    Uses
-      At line 94 in file USART0_solution.s
+      At line 97 in file TWI.s
 Comment: PMC_PCER used once
 PMC_PCK0 00000040
 
@@ -3271,13 +3270,13 @@ PMC_PCK2 00000048
 Symbol: PMC_PCK2
    Definitions
       At line 123 in file AT91SAM7SE512.INC
-   Uses
 
 
 
-ARM Macro Assembler    Page 25 Alphabetic symbol ordering
+ARM Macro Assembler    Page 23 Alphabetic symbol ordering
 Absolute symbols
 
+   Uses
       None
 Comment: PMC_PCK2 unused
 PMC_PCSR 00000018
@@ -3336,13 +3335,13 @@ Symbol: PMC_SCER
    Uses
       None
 Comment: PMC_SCER unused
-PMC_SCSR 00000008
 
 
 
-ARM Macro Assembler    Page 26 Alphabetic symbol ordering
+ARM Macro Assembler    Page 24 Alphabetic symbol ordering
 Absolute symbols
 
+PMC_SCSR 00000008
 
 Symbol: PMC_SCSR
    Definitions
@@ -3401,13 +3400,13 @@ Comment: PWM_BASE unused
 PWM_CCNT0 0000020C
 
 Symbol: PWM_CCNT0
-   Definitions
 
 
 
-ARM Macro Assembler    Page 27 Alphabetic symbol ordering
+ARM Macro Assembler    Page 25 Alphabetic symbol ordering
 Absolute symbols
 
+   Definitions
       At line 280 in file AT91SAM7SE512.INC
    Uses
       None
@@ -3466,13 +3465,13 @@ Symbol: PWM_CDTY3
    Definitions
       At line 293 in file AT91SAM7SE512.INC
    Uses
-      None
 
 
 
-ARM Macro Assembler    Page 28 Alphabetic symbol ordering
+ARM Macro Assembler    Page 26 Alphabetic symbol ordering
 Absolute symbols
 
+      None
 Comment: PWM_CDTY3 unused
 PWM_CMR0 00000200
 
@@ -3534,9 +3533,9 @@ PWM_CPRD3 00000268
 
 
 
-
-ARM Macro Assembler    Page 29 Alphabetic symbol ordering
+ARM Macro Assembler    Page 27 Alphabetic symbol ordering
 Absolute symbols
+
 
 Symbol: PWM_CPRD3
    Definitions
@@ -3596,13 +3595,13 @@ PWM_IDR 00000014
 
 Symbol: PWM_IDR
    Definitions
-      At line 274 in file AT91SAM7SE512.INC
 
 
 
-ARM Macro Assembler    Page 30 Alphabetic symbol ordering
+ARM Macro Assembler    Page 28 Alphabetic symbol ordering
 Absolute symbols
 
+      At line 274 in file AT91SAM7SE512.INC
    Uses
       None
 Comment: PWM_IDR unused
@@ -3661,39 +3660,13 @@ Symbol: REGS512
       At line 1 in file AT91SAM7SE512.INC
    Uses
       None
-Comment: REGS512 unused
 
 
 
-ARM Macro Assembler    Page 31 Alphabetic symbol ordering
+ARM Macro Assembler    Page 29 Alphabetic symbol ordering
 Absolute symbols
 
-RESET_STA 00000100
-
-Symbol: RESET_STA
-   Definitions
-      At line 49 in file USART0_solution.s
-   Uses
-      At line 50 in file USART0_solution.s
-      At line 155 in file USART0_solution.s
-      At line 179 in file USART0_solution.s
-
-RESET_UART 0000010C
-
-Symbol: RESET_UART
-   Definitions
-      At line 50 in file USART0_solution.s
-   Uses
-      At line 96 in file USART0_solution.s
-Comment: RESET_UART used once
-RS485_MODE 00000001
-
-Symbol: RS485_MODE
-   Definitions
-      At line 21 in file USART0_solution.s
-   Uses
-      None
-Comment: RS485_MODE unused
+Comment: REGS512 unused
 RSTC_BASE FFFFFD00
 
 Symbol: RSTC_BASE
@@ -3728,12 +3701,6 @@ Symbol: RSTC_SR
 Comment: RSTC_SR unused
 RTT_AR 00000004
 
-
-
-ARM Macro Assembler    Page 32 Alphabetic symbol ordering
-Absolute symbols
-
-
 Symbol: RTT_AR
    Definitions
       At line 323 in file AT91SAM7SE512.INC
@@ -3758,6 +3725,12 @@ Symbol: RTT_MR
 Comment: RTT_MR unused
 RTT_SR 0000000C
 
+
+
+
+ARM Macro Assembler    Page 30 Alphabetic symbol ordering
+Absolute symbols
+
 Symbol: RTT_SR
    Definitions
       At line 325 in file AT91SAM7SE512.INC
@@ -3772,46 +3745,30 @@ Symbol: RTT_VR
    Uses
       None
 Comment: RTT_VR unused
-RXRDY 00000001
+RxRDY_BIT 00000002
 
-Symbol: RXRDY
+Symbol: RxRDY_BIT
    Definitions
-      At line 59 in file USART0_solution.s
+      At line 25 in file TWI.s
    Uses
-      At line 149 in file USART0_solution.s
-      At line 176 in file USART0_solution.s
+      At line 247 in file TWI.s
+Comment: RxRDY_BIT used once
+SCL 00000010
 
-RX_Error F0000000
-
-Symbol: RX_Error
+Symbol: SCL
    Definitions
-      At line 70 in file USART0_solution.s
+      At line 64 in file TWI.s
    Uses
-      At line 154 in file USART0_solution.s
-      At line 181 in file USART0_solution.s
+      At line 102 in file TWI.s
+Comment: SCL used once
+SDA 00000008
 
-RX_TX_EN 00000050
-
-
-
-
-ARM Macro Assembler    Page 33 Alphabetic symbol ordering
-Absolute symbols
-
-Symbol: RX_TX_EN
+Symbol: SDA
    Definitions
-      At line 54 in file USART0_solution.s
+      At line 63 in file TWI.s
    Uses
-      At line 102 in file USART0_solution.s
-Comment: RX_TX_EN used once
-RX_TX_PINS 00000060
-
-Symbol: RX_TX_PINS
-   Definitions
-      At line 48 in file USART0_solution.s
-   Uses
-      At line 105 in file USART0_solution.s
-Comment: RX_TX_PINS used once
+      At line 101 in file TWI.s
+Comment: SDA used once
 SDRC_BASE FFFFFFB0
 
 Symbol: SDRC_BASE
@@ -3833,6 +3790,12 @@ SDRC_IDR 00000018
 Symbol: SDRC_IDR
    Definitions
       At line 469 in file AT91SAM7SE512.INC
+
+
+
+ARM Macro Assembler    Page 31 Alphabetic symbol ordering
+Absolute symbols
+
    Uses
       None
 Comment: SDRC_IDR unused
@@ -3857,12 +3820,6 @@ SDRC_ISR 00000020
 Symbol: SDRC_ISR
    Definitions
       At line 471 in file AT91SAM7SE512.INC
-
-
-
-ARM Macro Assembler    Page 34 Alphabetic symbol ordering
-Absolute symbols
-
    Uses
       None
 Comment: SDRC_ISR unused
@@ -3898,6 +3855,12 @@ Symbol: SDRC_TR
    Uses
       None
 Comment: SDRC_TR unused
+
+
+
+ARM Macro Assembler    Page 32 Alphabetic symbol ordering
+Absolute symbols
+
 SMC_BASE FFFFFF90
 
 Symbol: SMC_BASE
@@ -3922,12 +3885,6 @@ Symbol: SMC_CSR1
    Uses
       None
 Comment: SMC_CSR1 unused
-
-
-
-ARM Macro Assembler    Page 35 Alphabetic symbol ordering
-Absolute symbols
-
 SMC_CSR2 00000008
 
 Symbol: SMC_CSR2
@@ -3963,6 +3920,12 @@ Comment: SMC_CSR5 unused
 SMC_CSR6 00000018
 
 Symbol: SMC_CSR6
+
+
+
+ARM Macro Assembler    Page 33 Alphabetic symbol ordering
+Absolute symbols
+
    Definitions
       At line 459 in file AT91SAM7SE512.INC
    Uses
@@ -3987,12 +3950,6 @@ Comment: SPI_BASE unused
 SPI_CR 00000000
 
 Symbol: SPI_CR
-
-
-
-ARM Macro Assembler    Page 36 Alphabetic symbol ordering
-Absolute symbols
-
    Definitions
       At line 337 in file AT91SAM7SE512.INC
    Uses
@@ -4028,6 +3985,12 @@ Symbol: SPI_CSR3
    Definitions
       At line 348 in file AT91SAM7SE512.INC
    Uses
+
+
+
+ARM Macro Assembler    Page 34 Alphabetic symbol ordering
+Absolute symbols
+
       None
 Comment: SPI_CSR3 unused
 SPI_IDR 00000018
@@ -4052,12 +4015,6 @@ Symbol: SPI_IMR
    Definitions
       At line 344 in file AT91SAM7SE512.INC
    Uses
-
-
-
-ARM Macro Assembler    Page 37 Alphabetic symbol ordering
-Absolute symbols
-
       None
 Comment: SPI_IMR unused
 SPI_MR 00000004
@@ -4094,6 +4051,12 @@ Symbol: SPI_PID_BIT
 Comment: SPI_PID_BIT unused
 SPI_RDR 00000008
 
+
+
+ARM Macro Assembler    Page 35 Alphabetic symbol ordering
+Absolute symbols
+
+
 Symbol: SPI_RDR
    Definitions
       At line 339 in file AT91SAM7SE512.INC
@@ -4117,12 +4080,6 @@ Symbol: SPI_TDR
       None
 Comment: SPI_TDR unused
 SSC_BASE FFFD4000
-
-
-
-ARM Macro Assembler    Page 38 Alphabetic symbol ordering
-Absolute symbols
-
 
 Symbol: SSC_BASE
    Definitions
@@ -4158,6 +4115,12 @@ SSC_IER 00000044
 
 Symbol: SSC_IER
    Definitions
+
+
+
+ARM Macro Assembler    Page 36 Alphabetic symbol ordering
+Absolute symbols
+
       At line 365 in file AT91SAM7SE512.INC
    Uses
       None
@@ -4182,12 +4145,6 @@ SSC_PID 00000008
 
 Symbol: SSC_PID
    Definitions
-
-
-
-ARM Macro Assembler    Page 39 Alphabetic symbol ordering
-Absolute symbols
-
       At line 85 in file AT91SAM7SE512.INC
    Uses
       None
@@ -4223,6 +4180,12 @@ Symbol: SSC_RCMR
       At line 354 in file AT91SAM7SE512.INC
    Uses
       None
+
+
+
+ARM Macro Assembler    Page 37 Alphabetic symbol ordering
+Absolute symbols
+
 Comment: SSC_RCMR unused
 SSC_RFMR 00000014
 
@@ -4247,12 +4210,6 @@ Symbol: SSC_RSHR
       At line 360 in file AT91SAM7SE512.INC
    Uses
       None
-
-
-
-ARM Macro Assembler    Page 40 Alphabetic symbol ordering
-Absolute symbols
-
 Comment: SSC_RSHR unused
 SSC_SR 00000040
 
@@ -4288,42 +4245,35 @@ Symbol: SSC_THR
 Comment: SSC_THR unused
 SSC_TSHR 00000034
 
+
+
+
+ARM Macro Assembler    Page 38 Alphabetic symbol ordering
+Absolute symbols
+
 Symbol: SSC_TSHR
    Definitions
       At line 361 in file AT91SAM7SE512.INC
    Uses
       None
 Comment: SSC_TSHR unused
-STOP_1 00000000
+START 00000001
 
-Symbol: STOP_1
+Symbol: START
    Definitions
-      At line 41 in file USART0_solution.s
+      At line 15 in file TWI.s
    Uses
-      At line 52 in file USART0_solution.s
-Comment: STOP_1 used once
-STOP_1_5 00000001
+      At line 228 in file TWI.s
+Comment: START used once
+STOP 00000002
 
-Symbol: STOP_1_5
+Symbol: STOP
    Definitions
-      At line 42 in file USART0_solution.s
+      At line 16 in file TWI.s
    Uses
-      None
-Comment: STOP_1_5 unused
-STOP_2 00000002
+      At line 231 in file TWI.s
+      At line 256 in file TWI.s
 
-
-
-
-ARM Macro Assembler    Page 41 Alphabetic symbol ordering
-Absolute symbols
-
-Symbol: STOP_2
-   Definitions
-      At line 43 in file USART0_solution.s
-   Uses
-      None
-Comment: STOP_2 unused
 TC0_BASE FFFA0000
 
 Symbol: TC0_BASE
@@ -4360,6 +4310,12 @@ TC1_PID 0000000D
 
 Symbol: TC1_PID
    Definitions
+
+
+
+ARM Macro Assembler    Page 39 Alphabetic symbol ordering
+Absolute symbols
+
       At line 90 in file AT91SAM7SE512.INC
    Uses
       None
@@ -4377,12 +4333,6 @@ TC2_BASE FFFA0080
 Symbol: TC2_BASE
    Definitions
       At line 303 in file AT91SAM7SE512.INC
-
-
-
-ARM Macro Assembler    Page 42 Alphabetic symbol ordering
-Absolute symbols
-
    Uses
       None
 Comment: TC2_BASE unused
@@ -4425,6 +4375,12 @@ Symbol: TC_BMR
       At line 305 in file AT91SAM7SE512.INC
    Uses
       None
+
+
+
+ARM Macro Assembler    Page 40 Alphabetic symbol ordering
+Absolute symbols
+
 Comment: TC_BMR unused
 TC_CCR 00000000
 
@@ -4442,12 +4398,6 @@ Symbol: TC_CMR
    Uses
       None
 Comment: TC_CMR unused
-
-
-
-ARM Macro Assembler    Page 43 Alphabetic symbol ordering
-Absolute symbols
-
 TC_CV 00000010
 
 Symbol: TC_CV
@@ -4490,6 +4440,12 @@ Symbol: TC_RA
 Comment: TC_RA unused
 TC_RB 00000018
 
+
+
+
+ARM Macro Assembler    Page 41 Alphabetic symbol ordering
+Absolute symbols
+
 Symbol: TC_RB
    Definitions
       At line 311 in file AT91SAM7SE512.INC
@@ -4507,12 +4463,6 @@ Comment: TC_RC unused
 TC_SR 00000020
 
 Symbol: TC_SR
-
-
-
-ARM Macro Assembler    Page 44 Alphabetic symbol ordering
-Absolute symbols
-
    Definitions
       At line 313 in file AT91SAM7SE512.INC
    Uses
@@ -4524,32 +4474,52 @@ Symbol: TWI_BASE
    Definitions
       At line 370 in file AT91SAM7SE512.INC
    Uses
-      None
-Comment: TWI_BASE unused
+      At line 109 in file TWI.s
+      At line 150 in file TWI.s
+      At line 217 in file TWI.s
+
 TWI_CR 00000000
 
 Symbol: TWI_CR
    Definitions
       At line 371 in file AT91SAM7SE512.INC
    Uses
-      None
-Comment: TWI_CR unused
+      At line 111 in file TWI.s
+      At line 119 in file TWI.s
+      At line 234 in file TWI.s
+      At line 257 in file TWI.s
+
 TWI_CWGR 00000010
 
 Symbol: TWI_CWGR
    Definitions
       At line 375 in file AT91SAM7SE512.INC
    Uses
+      At line 115 in file TWI.s
+Comment: TWI_CWGR used once
+TWI_FREQ 000061A8
+
+Symbol: TWI_FREQ
+   Definitions
+      At line 32 in file TWI.s
+   Uses
       None
-Comment: TWI_CWGR unused
+Comment: TWI_FREQ unused
+
+
+
+ARM Macro Assembler    Page 42 Alphabetic symbol ordering
+Absolute symbols
+
 TWI_IADR 0000000C
 
 Symbol: TWI_IADR
    Definitions
       At line 374 in file AT91SAM7SE512.INC
    Uses
-      None
-Comment: TWI_IADR unused
+      At line 154 in file TWI.s
+      At line 222 in file TWI.s
+
 TWI_IDR 00000028
 
 Symbol: TWI_IDR
@@ -4572,12 +4542,6 @@ Symbol: TWI_IMR
    Definitions
       At line 379 in file AT91SAM7SE512.INC
    Uses
-
-
-
-ARM Macro Assembler    Page 45 Alphabetic symbol ordering
-Absolute symbols
-
       None
 Comment: TWI_IMR unused
 TWI_MMR 00000004
@@ -4586,17 +4550,32 @@ Symbol: TWI_MMR
    Definitions
       At line 372 in file AT91SAM7SE512.INC
    Uses
-      None
-Comment: TWI_MMR unused
+      At line 153 in file TWI.s
+      At line 221 in file TWI.s
+
+TWI_MSTR_MODE 00000024
+
+Symbol: TWI_MSTR_MODE
+   Definitions
+      At line 34 in file TWI.s
+   Uses
+      At line 118 in file TWI.s
+Comment: TWI_MSTR_MODE used once
 TWI_PID 00000009
 
 Symbol: TWI_PID
    Definitions
       At line 86 in file AT91SAM7SE512.INC
    Uses
-      None
-Comment: TWI_PID unused
+      At line 96 in file TWI.s
+Comment: TWI_PID used once
 TWI_PID_BIT 00000200
+
+
+
+ARM Macro Assembler    Page 43 Alphabetic symbol ordering
+Absolute symbols
+
 
 Symbol: TWI_PID_BIT
    Definitions
@@ -4610,8 +4589,24 @@ Symbol: TWI_RHR
    Definitions
       At line 380 in file AT91SAM7SE512.INC
    Uses
+      At line 250 in file TWI.s
+Comment: TWI_RHR used once
+TWI_RST 00000080
+
+Symbol: TWI_RST
+   Definitions
+      At line 33 in file TWI.s
+   Uses
+      At line 110 in file TWI.s
+Comment: TWI_RST used once
+TWI_SLAV_MODE 00000018
+
+Symbol: TWI_SLAV_MODE
+   Definitions
+      At line 35 in file TWI.s
+   Uses
       None
-Comment: TWI_RHR unused
+Comment: TWI_SLAV_MODE unused
 TWI_SMR 00000008
 
 Symbol: TWI_SMR
@@ -4626,46 +4621,42 @@ Symbol: TWI_SR
    Definitions
       At line 376 in file AT91SAM7SE512.INC
    Uses
-      None
-Comment: TWI_SR unused
+      At line 168 in file TWI.s
+      At line 182 in file TWI.s
+      At line 244 in file TWI.s
+      At line 268 in file TWI.s
+
 TWI_THR 00000034
 
 Symbol: TWI_THR
    Definitions
       At line 381 in file AT91SAM7SE512.INC
    Uses
-      None
-Comment: TWI_THR unused
-TXRDY 00000002
+      At line 165 in file TWI.s
+Comment: TWI_THR used once
+TxCOMP_BIT 00000001
 
 
 
-ARM Macro Assembler    Page 46 Alphabetic symbol ordering
+ARM Macro Assembler    Page 44 Alphabetic symbol ordering
 Absolute symbols
 
 
-Symbol: TXRDY
+Symbol: TxCOMP_BIT
    Definitions
-      At line 58 in file USART0_solution.s
+      At line 26 in file TWI.s
    Uses
-      At line 128 in file USART0_solution.s
-Comment: TXRDY used once
-TX_Error E0000000
+      At line 269 in file TWI.s
+      At line 270 in file TWI.s
 
-Symbol: TX_Error
-   Definitions
-      At line 69 in file USART0_solution.s
-   Uses
-      At line 124 in file USART0_solution.s
-Comment: TX_Error used once
-UART_MODE_REG 000008C0
+TxRDY_BIT 00000004
 
-Symbol: UART_MODE_REG
+Symbol: TxRDY_BIT
    Definitions
-      At line 52 in file USART0_solution.s
+      At line 24 in file TWI.s
    Uses
-      At line 98 in file USART0_solution.s
-Comment: UART_MODE_REG used once
+      At line 169 in file TWI.s
+Comment: TxRDY_BIT used once
 UDP_BASE FFFB0000
 
 Symbol: UDP_BASE
@@ -4702,12 +4693,6 @@ UDP_CSR3 0000003C
 
 Symbol: UDP_CSR3
    Definitions
-
-
-
-ARM Macro Assembler    Page 47 Alphabetic symbol ordering
-Absolute symbols
-
       At line 433 in file AT91SAM7SE512.INC
    Uses
       None
@@ -4715,6 +4700,12 @@ Comment: UDP_CSR3 unused
 UDP_CSR4 00000040
 
 Symbol: UDP_CSR4
+
+
+
+ARM Macro Assembler    Page 45 Alphabetic symbol ordering
+Absolute symbols
+
    Definitions
       At line 434 in file AT91SAM7SE512.INC
    Uses
@@ -4767,12 +4758,6 @@ Symbol: UDP_FDR1
       At line 439 in file AT91SAM7SE512.INC
    Uses
       None
-
-
-
-ARM Macro Assembler    Page 48 Alphabetic symbol ordering
-Absolute symbols
-
 Comment: UDP_FDR1 unused
 UDP_FDR2 00000058
 
@@ -4780,6 +4765,12 @@ Symbol: UDP_FDR2
    Definitions
       At line 440 in file AT91SAM7SE512.INC
    Uses
+
+
+
+ARM Macro Assembler    Page 46 Alphabetic symbol ordering
+Absolute symbols
+
       None
 Comment: UDP_FDR2 unused
 UDP_FDR3 0000005C
@@ -4832,12 +4823,6 @@ Symbol: UDP_FRM_NUM
 Comment: UDP_FRM_NUM unused
 UDP_GLBSTATE 00000004
 
-
-
-
-ARM Macro Assembler    Page 49 Alphabetic symbol ordering
-Absolute symbols
-
 Symbol: UDP_GLBSTATE
    Definitions
       At line 422 in file AT91SAM7SE512.INC
@@ -4845,6 +4830,12 @@ Symbol: UDP_GLBSTATE
       None
 Comment: UDP_GLBSTATE unused
 UDP_ICR 00000020
+
+
+
+ARM Macro Assembler    Page 47 Alphabetic symbol ordering
+Absolute symbols
+
 
 Symbol: UDP_ICR
    Definitions
@@ -4897,12 +4888,6 @@ UDP_PID_BIT 00000800
 Symbol: UDP_PID_BIT
    Definitions
       At line 72 in file AT91SAM7SE512.INC
-
-
-
-ARM Macro Assembler    Page 50 Alphabetic symbol ordering
-Absolute symbols
-
    Uses
       None
 Comment: UDP_PID_BIT unused
@@ -4910,6 +4895,12 @@ UDP_RSTEP 00000028
 
 Symbol: UDP_RSTEP
    Definitions
+
+
+
+ARM Macro Assembler    Page 48 Alphabetic symbol ordering
+Absolute symbols
+
       At line 429 in file AT91SAM7SE512.INC
    Uses
       None
@@ -4928,11 +4919,8 @@ Symbol: USART0_BASE
    Definitions
       At line 164 in file AT91SAM7SE512.INC
    Uses
-      At line 95 in file USART0_solution.s
-      At line 126 in file USART0_solution.s
-      At line 147 in file USART0_solution.s
-      At line 173 in file USART0_solution.s
-
+      None
+Comment: USART0_BASE unused
 USART0_PDMA_BASE FFFC0100
 
 Symbol: USART0_PDMA_BASE
@@ -4947,8 +4935,8 @@ Symbol: USART0_PID
    Definitions
       At line 83 in file AT91SAM7SE512.INC
    Uses
-      At line 93 in file USART0_solution.s
-Comment: USART0_PID used once
+      None
+Comment: USART0_PID unused
 USART0_PID_BIT 00000040
 
 Symbol: USART0_PID_BIT
@@ -4962,12 +4950,6 @@ USART1_BASE FFFC4000
 Symbol: USART1_BASE
    Definitions
       At line 165 in file AT91SAM7SE512.INC
-
-
-
-ARM Macro Assembler    Page 51 Alphabetic symbol ordering
-Absolute symbols
-
    Uses
       None
 Comment: USART1_BASE unused
@@ -4978,6 +4960,12 @@ Symbol: USART1_PDMA_BASE
       At line 385 in file AT91SAM7SE512.INC
    Uses
       None
+
+
+
+ARM Macro Assembler    Page 49 Alphabetic symbol ordering
+Absolute symbols
+
 Comment: USART1_PDMA_BASE unused
 USART1_PID 00000007
 
@@ -4995,50 +4983,30 @@ Symbol: USART1_PID_BIT
    Uses
       None
 Comment: USART1_PID_BIT unused
-USCLK 00000004
-
-Symbol: USCLK
-   Definitions
-      At line 24 in file USART0_solution.s
-   Uses
-      At line 52 in file USART0_solution.s
-Comment: USCLK used once
 US_BRGR 00000020
 
 Symbol: US_BRGR
    Definitions
       At line 174 in file AT91SAM7SE512.INC
    Uses
-      At line 101 in file USART0_solution.s
-Comment: US_BRGR used once
+      None
+Comment: US_BRGR unused
 US_CR 00000000
 
 Symbol: US_CR
    Definitions
       At line 166 in file AT91SAM7SE512.INC
    Uses
-      At line 97 in file USART0_solution.s
-      At line 103 in file USART0_solution.s
-      At line 156 in file USART0_solution.s
-      At line 180 in file USART0_solution.s
-
+      None
+Comment: US_CR unused
 US_CSR 00000014
 
 Symbol: US_CSR
    Definitions
       At line 171 in file AT91SAM7SE512.INC
-
-
-
-ARM Macro Assembler    Page 52 Alphabetic symbol ordering
-Absolute symbols
-
    Uses
-      At line 127 in file USART0_solution.s
-      At line 148 in file USART0_solution.s
-      At line 152 in file USART0_solution.s
-      At line 175 in file USART0_solution.s
-
+      None
+Comment: US_CSR unused
 US_FIDI 00000040
 
 Symbol: US_FIDI
@@ -5056,6 +5024,12 @@ Symbol: US_IDR
       None
 Comment: US_IDR unused
 US_IER 00000008
+
+
+
+
+ARM Macro Assembler    Page 50 Alphabetic symbol ordering
+Absolute symbols
 
 Symbol: US_IER
    Definitions
@@ -5079,44 +5053,14 @@ Symbol: US_IMR
    Uses
       None
 Comment: US_IMR unused
-US_MCK 00000000
-
-Symbol: US_MCK
-   Definitions
-      At line 25 in file USART0_solution.s
-   Uses
-      At line 52 in file USART0_solution.s
-Comment: US_MCK used once
-US_MCK_8 00000001
-
-Symbol: US_MCK_8
-   Definitions
-      At line 26 in file USART0_solution.s
-
-
-
-ARM Macro Assembler    Page 53 Alphabetic symbol ordering
-Absolute symbols
-
-   Uses
-      None
-Comment: US_MCK_8 unused
-US_MODE 00000000
-
-Symbol: US_MODE
-   Definitions
-      At line 19 in file USART0_solution.s
-   Uses
-      At line 52 in file USART0_solution.s
-Comment: US_MODE used once
 US_MR 00000004
 
 Symbol: US_MR
    Definitions
       At line 167 in file AT91SAM7SE512.INC
    Uses
-      At line 99 in file USART0_solution.s
-Comment: US_MR used once
+      None
+Comment: US_MR unused
 US_NER 00000044
 
 Symbol: US_NER
@@ -5131,9 +5075,8 @@ Symbol: US_RHR
    Definitions
       At line 172 in file AT91SAM7SE512.INC
    Uses
-      At line 151 in file USART0_solution.s
-      At line 177 in file USART0_solution.s
-
+      None
+Comment: US_RHR unused
 US_RTOR 00000024
 
 Symbol: US_RTOR
@@ -5142,28 +5085,20 @@ Symbol: US_RTOR
    Uses
       None
 Comment: US_RTOR unused
-US_SCK 00000003
-
-Symbol: US_SCK
-   Definitions
-      At line 27 in file USART0_solution.s
-   Uses
-      None
-Comment: US_SCK unused
 US_THR 0000001C
 
 Symbol: US_THR
    Definitions
       At line 173 in file AT91SAM7SE512.INC
-   Uses
-      At line 130 in file USART0_solution.s
 
 
 
-ARM Macro Assembler    Page 54 Alphabetic symbol ordering
+ARM Macro Assembler    Page 51 Alphabetic symbol ordering
 Absolute symbols
 
-Comment: US_THR used once
+   Uses
+      None
+Comment: US_THR unused
 US_TTGR 00000028
 
 Symbol: US_TTGR
@@ -5204,5 +5139,5 @@ Symbol: WDT_SR
    Uses
       None
 Comment: WDT_SR unused
-394 symbols
-735 symbols in table
+372 symbols
+721 symbols in table
