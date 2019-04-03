@@ -1,0 +1,12 @@
+--cpu ARM7TDMI
+".\sam7.o"
+".\experiment_2.o"
+".\input_integer.o"
+".\retarget_solution.o"
+".\assembly_exp1_solution.o"
+".\twi_example.o"
+".\usart0_solution.o"
+--strict --scatter ".\Exp_2.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Exp_2.map" -o .\Exp_2.axf

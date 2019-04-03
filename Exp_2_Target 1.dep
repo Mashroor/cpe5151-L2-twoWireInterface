@@ -1,0 +1,21 @@
+Dependencies for Project 'Exp_2', Target 'Target 1': (DO NOT MODIFY !)
+F (.\SAM7.s)(0x5CA39280)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\KeilARM\ARM\RV31\INC-I C:\KeilARM\ARM\CMSIS\Include-I C:\KeilARM\ARM\Inc\Atmel\SAM7SE--list .\sam7.lst --xref -o .\sam7.o --depend .\sam7.d)
+F (.\Experiment_2.c)(0x5CA3FED0)(-c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I C:\KeilARM\ARM\RV31\INC-I C:\KeilARM\ARM\CMSIS\Include-I C:\KeilARM\ARM\Inc\Atmel\SAM7SE-o .\experiment_2.o --omf_browse .\experiment_2.crf --depend .\experiment_2.d)
+I (C:\KeilARM\ARM\Inc\Atmel\SAM7SE\AT91SAM7SE512.H)(0x520A6108)
+I (AT91SAM7SE-EK.h)(0x5CA3927E)
+I (Exp1_solution.h)(0x5CA3927F)
+I (USART0_solution.h)(0x5CA3DCCD)
+I (TWI_example.h)(0x5CA3F2BC)
+I (Input_Integer.h)(0x5CA3927F)
+I (C:\KeilARM\ARM\ARMCC\include\stdio.h)(0x51C86E14)
+F (.\Input_Integer.c)(0x5CA3927F)(-c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I C:\KeilARM\ARM\RV31\INC-I C:\KeilARM\ARM\CMSIS\Include-I C:\KeilARM\ARM\Inc\Atmel\SAM7SE-o .\input_integer.o --omf_browse .\input_integer.crf --depend .\input_integer.d)
+I (Input_Integer.h)(0x5CA3927F)
+I (USART0_solution.h)(0x5CA3DCCD)
+I (C:\KeilARM\ARM\ARMCC\include\stdlib.h)(0x51C86E14)
+F (.\retarget_solution.c)(0x5CA3927F)(-c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I C:\KeilARM\ARM\RV31\INC-I C:\KeilARM\ARM\CMSIS\Include-I C:\KeilARM\ARM\Inc\Atmel\SAM7SE-o .\retarget_solution.o --omf_browse .\retarget_solution.crf --depend .\retarget_solution.d)
+I (C:\KeilARM\ARM\ARMCC\include\stdio.h)(0x51C86E14)
+I (C:\KeilARM\ARM\ARMCC\include\rt_misc.h)(0x51C86E14)
+I (USART0_solution.h)(0x5CA3DCCD)
+F (.\Assembly_Exp1_solution.s)(0x5CA3CFCC)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\KeilARM\ARM\RV31\INC-I C:\KeilARM\ARM\CMSIS\Include-I C:\KeilARM\ARM\Inc\Atmel\SAM7SE--list .\assembly_exp1_solution.lst --xref -o .\assembly_exp1_solution.o --depend .\assembly_exp1_solution.d)
+F (.\TWI_example.s)(0x5CA3FFE8)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\KeilARM\ARM\RV31\INC-I C:\KeilARM\ARM\CMSIS\Include-I C:\KeilARM\ARM\Inc\Atmel\SAM7SE--list .\twi_example.lst --xref -o .\twi_example.o --depend .\twi_example.d)
+F (.\USART0_solution.s)(0x5CA3DE30)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\KeilARM\ARM\RV31\INC-I C:\KeilARM\ARM\CMSIS\Include-I C:\KeilARM\ARM\Inc\Atmel\SAM7SE--list .\usart0_solution.lst --xref -o .\usart0_solution.o --depend .\usart0_solution.d)
